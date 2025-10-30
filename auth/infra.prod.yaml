@@ -1,0 +1,9 @@
+configmapdata:
+  AZURE_SERVICE_BUS_SUBSCRIPTION: 'auth'
+  PWA_URL: 'https://mijn.{{DEPLOY_BASE_URL}}'
+  LOG_LEVELS: log,error
+  DEPLOYED_ENVIRONMENT: '{{STAGE}}'
+
+onepassword:
+  enabled: true
+  vault: k8s-production

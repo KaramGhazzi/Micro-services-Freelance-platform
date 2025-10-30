@@ -1,0 +1,22 @@
+configmapdata:
+  PWA_URL: 'https://pwa-{{SUFFIX}}.freelance-develop.{{DEPLOY_BASE_URL}}'
+  NODE_OPTIONS: '--max-old-space-size=300'
+  SB_TOPIC_PREFIX: '{{SUFFIX}}'
+  GRAPHQL_URL: 'http://apollo-router-{{SUFFIX}}-{{STAGE}}'
+
+secrets:
+  app: true
+  appNameOverride: scrt-freelance-platform-auth-develop
+  custom:
+    enabled: true
+    name: scrt-freelance-platform-auth-feat
+  shared: true
+  sharedNameOverride: scrt-freelance-platform-shared-feat
+
+redis:
+  fullnameOverride: freelance-platform-auth-feat-redis
+  auth:
+    existingSecret: scrt-freelance-platform-auth-feat-redis
+
+image:
+  registry: freelancepfdevelopregistry.azurecr.io

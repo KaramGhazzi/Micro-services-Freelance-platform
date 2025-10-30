@@ -1,0 +1,14 @@
+{
+  "extends": "@package/config/typescript/nestjs",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./supergraph-schema.graphql"
+      }
+    ]
+  },
+  "include": ["src", "types"]
+}

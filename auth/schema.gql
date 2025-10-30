@@ -1,0 +1,84 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.3", import: ["@composeDirective", "@extends", "@external", "@inaccessible", "@interfaceObject", "@key", "@override", "@provides", "@requires", "@shareable", "@tag"])
+
+type PermissionsByCompanyId {
+  companyId: Float!
+  permissions: [String!]!
+}
+
+type LoginOutput {
+  idToken: String!
+  refreshToken: String!
+  permissionsByCompany: [PermissionsByCompanyId!]!
+}
+
+type PasswordResetOutput {
+  token: String!
+}
+
+type PasswordForgetOutput {
+  success: String!
+}
+
+type RegisterOutput {
+  success: String!
+}
+
+type ConfirmOutput {
+  idToken: String!
+  refreshToken: String!
+  permissionsByCompany: [PermissionsByCompanyId!]!
+}
+
+type PasswordUpdateOutput {
+  success: String!
+}
+
+type InviteOutput {
+  success: String!
+}
+
+type ConfirmInviteOutput {
+  idToken: String!
+  refreshToken: String!
+  permissionsByCompany: [PermissionsByCompanyId!]!
+}
+
+type CheckTokenOutput {
+  success: String!
+  confirmed: Boolean
+}
+
+type RequestEmailChangeOutput {
+  success: Boolean!
+}
+
+type Query {
+  healthAuth: String!
+  checkInvite(inviteToken: String!): CheckTokenOutput!
+  checkEmailChange(token: String!): RequestEmailChangeOutput!
+}
+
+type Mutation {
+  login(email: String!, password: String!): LoginOutput!
+  refreshSession(refreshToken: String!): LoginOutput!
+  resetPassword(token: String!, password: String!): PasswordResetOutput!
+  sendPasswordResetEmail(email: String!): PasswordForgetOutput!
+  updatePassword(email: String!, currentPassword: String!, password: String!): PasswordUpdateOutput!
+  register(firstName: String!, lastName: String!, phoneNumber: String!, email: String!, password: String!, privacySettings: PrivacySettings!, role: String!): RegisterOutput!
+  confirm(token: String!): ConfirmOutput!
+  invite(email: String!, userCompanyRole: String!, companyId: Float, message: String): InviteOutput!
+  inviteAdmin(email: String!, userCompanyRole: String!, companyId: Float, message: String): InviteOutput!
+  confirmInvite(inviteToken: String!, firstName: String!, lastName: String!, password: String!, phoneNumber: String!, companyId: Float, privacySettings: PrivacySettings!): ConfirmInviteOutput!
+  verifyEmailChange(token: String!, password: String!): LoginOutput!
+}
+
+input PrivacySettings {
+  informEmployersAnonymouslyWhenMatched: Boolean!
+  provideEmployersWithCvWhenMatched: Boolean!
+  informAboutProductsAndServices: Boolean!
+  shareWithMotherAndSisterCompanies: Boolean!
+  sendNewsletter: Boolean!
+  askForFeedback: Boolean!
+  sendContent: Boolean!
+}

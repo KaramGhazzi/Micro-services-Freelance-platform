@@ -1,0 +1,77 @@
+chart_version: 0.9.0
+kind: Deployment
+port:
+  enabled: true
+  name: api
+  value: 3002
+  protocol: TCP
+
+autoscaling:
+  enabled: true
+  maxReplicas: 3
+  minReplicas: 1
+  targetCPU: 85
+  targetMemory: 85
+
+resources:
+  requests:
+    cpu: 450m
+    memory: 250Mi
+  limits:
+    cpu: 450m
+    memory: 250Mi
+
+image:
+  registry: freelancepf{{STAGE}}registry.azurecr.io
+  repository: freelance-platform-auth
+  tag: '{{TAG}}'
+
+service:
+  enabled: true
+  type: ClusterIP
+
+ingress:
+  enabled: false
+
+configmaps:
+  enabled: true
+  shared: false
+
+configmapdata:
+  AZURE_SERVICE_BUS_SUBSCRIPTION: 'auth'
+  PWA_URL: 'https://pwa.freelance-{{STAGE}}.{{DEPLOY_BASE_URL}}'
+  LOG_LEVELS: log,error,warn,debug
+  DEPLOYED_ENVIRONMENT: '{{STAGE}}'
+  GRAPHQL_URL: 'http://apollo-router-{{STAGE}}'
+
+redis:
+  enabled: true
+  auth:
+    existingSecret: scrt-freelance-platform-auth-{{STAGE}}-redis
+  architecture: standalone
+
+secrets:
+  app: true
+  shared: true
+
+onepassword:
+  enabled: true
+  vault: k8s-staging
+
+livenessProbe:
+  path: /graphql?query=%7B__typename%7D
+  headers:
+    - name: apollo-require-preflight
+      value: 'true'
+
+readinessProbe:
+  path: /graphql?query=%7B__typename%7D
+  headers:
+    - name: apollo-require-preflight
+      value: 'true'
+
+startupProbe:
+  path: /graphql?query=%7B__typename%7D
+  headers:
+    - name: apollo-require-preflight
+      value: 'true'
