@@ -1,0 +1,21 @@
+mutation Register(
+  $email: String!
+  $firstName: String!
+  $lastName: String!
+  $password: String!
+  $phoneNumber: String!
+  $privacySettings: PrivacySettings!
+  $role: String!
+) {
+  register(
+    email: $email
+    firstName: $firstName
+    lastName: $lastName
+    password: $password
+    phoneNumber: $phoneNumber
+    privacySettings: $privacySettings
+    role: $role
+  ) {
+    success
+  }
+}

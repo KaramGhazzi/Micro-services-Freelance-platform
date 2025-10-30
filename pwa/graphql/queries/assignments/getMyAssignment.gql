@@ -1,0 +1,5 @@
+query getMyAssignment($where: AssignmentWhereInput!) {
+  assignment: myAssignment(where: $where) {
+    ...fullAssignmentInfoFragment
+  }
+}

@@ -1,0 +1,12 @@
+query Invoices($skip: Int, $take: Int) {
+  invoices(take: $take, skip: $skip) {
+    id
+    name
+    status
+    date
+    priceExVat
+    priceInclVat
+    downloadLink
+    subscription
+  }
+}

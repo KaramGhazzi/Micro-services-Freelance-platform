@@ -1,0 +1,6 @@
+query CheckInvite($inviteToken: String!) {
+  checkInvite(inviteToken: $inviteToken) {
+    confirmed
+    success
+  }
+}

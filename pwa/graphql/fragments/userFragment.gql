@@ -1,0 +1,40 @@
+fragment userFragment on User {
+  id
+  email
+  firstName
+  lastName
+  phoneNumber
+  createdAt
+  role
+  profilePhoto {
+    blobName
+    id
+    name
+    uuid
+    container
+  }
+  userCompanies {
+    id
+    status
+    company {
+      id
+      name
+      type
+      contracts {
+        endDate
+        plan {
+          product {
+            slug
+          }
+        }
+      }
+    }
+    userCompanyRoles {
+      role
+    }
+  }
+  assignments {
+    id
+    status
+  }
+}

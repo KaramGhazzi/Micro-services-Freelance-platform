@@ -1,0 +1,8 @@
+query Company(
+  $where: CompanyWhereInput!
+  $orderBy: [CompanyOrderByWithRelationInput!]
+) {
+  company(where: $where, orderBy: $orderBy) {
+    ...companyFragment
+  }
+}

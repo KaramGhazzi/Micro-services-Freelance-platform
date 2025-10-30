@@ -1,0 +1,26 @@
+query getApplicationProfiles(
+  $where: ApplicationProfileWhereInput
+  $orderBy: [ApplicationProfileOrderByWithRelationInput!]
+) {
+  applicationProfiles(where: $where, orderBy: $orderBy) {
+    id
+    title
+    rateFrom
+    rateTo
+    rateType
+    background
+    expertises
+    personalQualities
+    availableFrom
+    availability
+    availableHours
+    documents {
+      id
+      file {
+        container
+        blobName
+        name
+      }
+    }
+  }
+}

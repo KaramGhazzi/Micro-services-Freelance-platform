@@ -1,0 +1,32 @@
+fragment companyFragment on Company {
+  id
+  name
+  companyUsers {
+    status
+    user {
+      id
+      firstName
+      lastName
+      role
+      profilePhoto {
+        blobName
+        id
+        name
+        uuid
+        container
+      }
+    }
+  }
+  assignmentCount
+  openAssignmentCount
+  recruiterCount
+  latestTopReviewText
+  createdAt
+  coverImageFile {
+    container
+    blobName
+    name
+  }
+  createdAt
+  type
+}

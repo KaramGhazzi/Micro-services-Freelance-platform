@@ -1,0 +1,5 @@
+mutation DeleteCompanyReference($companyReferenceId: Float!) {
+  deleteCompanyReference(companyReferenceId: $companyReferenceId) {
+    id
+  }
+}

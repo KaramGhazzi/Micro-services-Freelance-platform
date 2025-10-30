@@ -1,0 +1,19 @@
+query AssignmentApplicationsAdmin(
+  $where: AssignmentApplicationWhereInput!
+  $skip: Int
+  $take: Int
+  $orderBy: [AssignmentApplicationOrderByWithRelationInput!]
+) {
+  count: countAssignmentApplicationsAdmin(where: $where)
+  assignmentApplications: assignmentApplicationsAdmin(
+    where: $where
+    skip: $skip
+    take: $take
+    orderBy: $orderBy
+  ) {
+    ...assignmentApplicationFragment
+    assignment {
+      ...assignmentCardFragment
+    }
+  }
+}

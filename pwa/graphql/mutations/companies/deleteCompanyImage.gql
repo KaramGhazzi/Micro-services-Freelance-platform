@@ -1,0 +1,3 @@
+mutation DeleteCompanyImage($imageType: CompanyImageType!) {
+  deleteCompanyImage(imageType: $imageType)
+}

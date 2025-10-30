@@ -1,0 +1,6 @@
+mutation createFile($data: FileCreateInput!) {
+  createFile(data: $data) {
+    uuid
+    name
+  }
+}

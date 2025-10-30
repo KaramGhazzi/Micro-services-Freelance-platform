@@ -1,0 +1,5 @@
+mutation AddFavorite($assignmentId: Int!) {
+  addFavorite(assignmentId: $assignmentId) {
+    id
+  }
+}

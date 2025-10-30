@@ -1,0 +1,8 @@
+mutation CheckoutCreate($data: CheckoutCreateInput!) {
+  checkoutCreate(data: $data) {
+    sessionId
+    session {
+      url
+    }
+  }
+}

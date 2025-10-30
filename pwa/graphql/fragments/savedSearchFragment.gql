@@ -1,0 +1,16 @@
+fragment savedSearchFragment on SavedSearch {
+  id
+  description
+  batchAlert
+  instantAlert
+  lastViewedAt
+  updatedAt
+  newMatchesCount
+  searchTags
+  expertises
+  locations
+  onLocation
+  noMatchingIntermediaries
+  minHoursPerWeek
+  maxHoursPerWeek
+}

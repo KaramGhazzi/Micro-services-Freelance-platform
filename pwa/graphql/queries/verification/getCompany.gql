@@ -1,0 +1,17 @@
+query VerificationGetCompany(
+  $countryCode: VerificationCountryCodes!
+  $identificationNumber: String!
+) {
+  verificationGetCompany(
+    countryCode: $countryCode
+    identificationNumber: $identificationNumber
+  ) {
+    city
+    houseNumber
+    identificationNumber
+    name
+    postalCode
+    street
+    fullAddress
+  }
+}

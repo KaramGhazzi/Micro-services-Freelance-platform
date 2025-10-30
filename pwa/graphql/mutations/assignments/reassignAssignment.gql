@@ -1,0 +1,5 @@
+mutation reassignAssignment($assignmentId: Int!, $ownerId: Int!) {
+  reassignAssignment(assignmentId: $assignmentId, ownerId: $ownerId) {
+    ownerId
+  }
+}

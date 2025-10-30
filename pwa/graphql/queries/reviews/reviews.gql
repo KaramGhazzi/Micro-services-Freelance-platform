@@ -1,0 +1,28 @@
+query reviews(
+  $where: ReviewWhereInput!
+  $skip: Int
+  $take: Int
+  $orderBy: [ReviewOrderByWithRelationInput!]
+) {
+  count: countReviews(where: $where)
+  reviews(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+    id
+    type
+    createdBy {
+      firstName
+      lastName
+    }
+    receivedBy {
+      firstName
+      lastName
+    }
+    createdAt
+    content
+    assignment {
+      title
+      company {
+        name
+      }
+    }
+  }
+}

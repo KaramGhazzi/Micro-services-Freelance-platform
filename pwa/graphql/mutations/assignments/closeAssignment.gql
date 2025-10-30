@@ -1,0 +1,5 @@
+mutation closeAssignment($assignmentId: Int!) {
+  closeAssignment(assignmentId: $assignmentId) {
+    id
+  }
+}

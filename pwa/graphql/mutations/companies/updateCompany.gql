@@ -1,0 +1,15 @@
+mutation UpdateCompany(
+  $data: CompanyUpdateInput!
+  $where: CompanyWhereUniqueInput!
+) {
+  companyUpdate(data: $data, where: $where) {
+    id
+    name
+    about
+    youtubeUrl
+    showCurrentAssignments
+    showEmployees
+    cocNumber
+    type
+  }
+}

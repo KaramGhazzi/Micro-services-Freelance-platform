@@ -1,0 +1,13 @@
+mutation updateContract(
+  $contractId: Float!
+  $companyId: Float!
+  $input: ContractUpdateInput!
+) {
+  updateContract(
+    contractId: $contractId
+    companyId: $companyId
+    input: $input
+  ) {
+    isSuccess
+  }
+}

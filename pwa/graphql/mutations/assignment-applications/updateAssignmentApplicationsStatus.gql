@@ -1,0 +1,13 @@
+mutation UpdateAssignmentApplicationsStatus(
+  $assignmentApplicationIds: [Int!]!
+  $status: AssignmentApplicationStatus!
+  $message: String
+) {
+  updateAssignmentApplicationsStatus(
+    assignmentApplicationIds: $assignmentApplicationIds
+    status: $status
+    message: $message
+  ) {
+    id
+  }
+}

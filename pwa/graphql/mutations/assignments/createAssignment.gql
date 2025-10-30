@@ -1,0 +1,5 @@
+mutation createAssignment($data: AssignmentUpdateInput!, $assignmentId: Int) {
+  createAssignment(data: $data, assignmentId: $assignmentId) {
+    id
+  }
+}

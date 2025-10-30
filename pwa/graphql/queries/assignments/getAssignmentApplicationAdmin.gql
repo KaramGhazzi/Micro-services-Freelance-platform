@@ -1,0 +1,20 @@
+query getAssignmentApplicationAdmin(
+  $where: AssignmentApplicationWhereInput!
+  $orderBy: [AssignmentApplicationOrderByWithRelationInput!]
+) {
+  assignmentApplicationAdmin(where: $where, orderBy: $orderBy) {
+    ...assignmentApplicationFragment
+    assignment {
+      ...assignmentDetailFragment
+    }
+    documents {
+      file {
+        name
+        uuid
+        container
+        blobName
+        size
+      }
+    }
+  }
+}

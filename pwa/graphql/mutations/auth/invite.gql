@@ -1,0 +1,5 @@
+mutation Invite($email: String!, $userCompanyRole: String!, $message: String!) {
+  invite(email: $email, userCompanyRole: $userCompanyRole, message: $message) {
+    success
+  }
+}

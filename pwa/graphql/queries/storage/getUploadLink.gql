@@ -1,0 +1,7 @@
+query getFileUploadLink($blobName: String!, $containerName: String!) {
+  fileUploadLink(blobName: $blobName, containerName: $containerName) {
+    blobName
+    url
+    expiresOn
+  }
+}

@@ -1,0 +1,6 @@
+query reviewInformation($companyId: Float!) {
+  reviewInformation(companyId: $companyId) {
+    tip
+    top
+  }
+}

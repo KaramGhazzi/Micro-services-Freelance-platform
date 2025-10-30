@@ -1,0 +1,8 @@
+mutation createDraftAssignment(
+  $data: AssignmentUpdateInput!
+  $assignmentId: Int
+) {
+  createDraftAssignment(data: $data, assignmentId: $assignmentId) {
+    id
+  }
+}

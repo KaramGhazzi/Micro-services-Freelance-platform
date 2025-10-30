@@ -1,0 +1,12 @@
+query companyCheck($cocNumber: String!, $cocCountry: String!) {
+  companyCheck(cocNumber: $cocNumber, cocCountry: $cocCountry) {
+    id
+    hasActiveUsers
+    cocNumber
+    name
+    address {
+      addressLine1
+      city
+    }
+  }
+}

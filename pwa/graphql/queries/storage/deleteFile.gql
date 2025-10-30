@@ -1,0 +1,3 @@
+mutation deleteFile($containerName: String!, $blobName: String!) {
+  fileDelete(containerName: $containerName, blobName: $blobName)
+}

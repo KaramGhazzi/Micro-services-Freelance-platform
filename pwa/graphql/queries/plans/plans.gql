@@ -1,0 +1,24 @@
+query Plans(
+  $where: PlanWhereInput
+  $skip: Int
+  $take: Int
+  $orderBy: [PlanOrderByWithRelationInput!]
+) {
+  plans(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+    id
+    externalProviderId
+    slug
+    renewalInterval
+    price {
+      id
+      unit_amount
+      currency
+    }
+    product {
+      id
+      slug
+    }
+    productId
+    usageAmount
+  }
+}

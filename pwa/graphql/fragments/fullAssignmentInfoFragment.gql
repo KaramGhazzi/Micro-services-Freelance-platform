@@ -1,0 +1,84 @@
+fragment fullAssignmentInfoFragment on Assignment {
+  id
+  uuid
+  description
+  title
+  owner {
+    firstName
+    lastName
+    id
+    profilePhoto {
+      blobName
+      container
+    }
+  }
+  currentStatus {
+    key
+    description
+  }
+  createdAt
+  publishAt
+  status
+  contractType
+  externalCode
+  applicationDeadlineDate
+  onLocation
+  province
+  place
+  startDate
+  duration
+  durationType
+  durationExtendable
+  hoursFrom
+  hoursTo
+  rateType
+  rateFrom
+  rateTo
+  type
+  commentsCount
+  viewsCount
+  description
+  descriptionIsVisible
+  descriptionIsVisibleFrom
+  notVisibleReason
+  companyId
+  company {
+    id
+    name
+    assignmentCount
+    openAssignmentCount
+    recruiterCount
+    latestTopReviewText
+    about
+    createdAt
+    coverImageFile {
+      blobName
+      container
+    }
+    logoImageFile {
+      blobName
+      container
+    }
+    createdAt
+    type
+  }
+  customerRelation
+  customerRelationCompany
+  customerRelationCompanyVisible
+  hideInDescription
+  isFavorite
+  startAsap
+  assignmentApplications {
+    ...assignmentApplicationFragment
+    uuid
+    _count {
+      documents
+    }
+  }
+  expertises {
+    id
+    expertise
+  }
+  applyEnabled
+  reviewEnabled
+}

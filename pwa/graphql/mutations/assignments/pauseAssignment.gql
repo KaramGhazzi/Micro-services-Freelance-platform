@@ -1,0 +1,5 @@
+mutation pauseAssignment($assignmentId: Int!) {
+  pauseAssignment(assignmentId: $assignmentId) {
+    id
+  }
+}

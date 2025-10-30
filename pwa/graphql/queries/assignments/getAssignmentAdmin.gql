@@ -1,0 +1,12 @@
+query getAssignmentAdmin($where: AssignmentWhereInput) {
+  assignmentAdmin(where: $where) {
+    ...fullAssignmentInfoFragment
+    statusHistory {
+      createdAt
+      id
+      key
+      modelId
+      modelType
+    }
+  }
+}

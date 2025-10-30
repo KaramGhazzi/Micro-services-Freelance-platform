@@ -1,0 +1,9 @@
+mutation updateApplicationProfile(
+  $data: ApplicationProfileUpdateInput!
+  $where: ApplicationProfileWhereUniqueInput!
+) {
+  updateApplicationProfile(data: $data, where: $where) {
+    id
+    uuid
+  }
+}

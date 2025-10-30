@@ -1,0 +1,11 @@
+mutation UserCompanyDelete(
+  $where: UsersCompaniesWhereUniqueInput!
+  $currentOwner: Float!
+  $newOwner: Float!
+) {
+  userCompanyDelete(
+    where: $where
+    currentOwner: $currentOwner
+    newOwner: $newOwner
+  )
+}

@@ -1,0 +1,19 @@
+query companiesPublicdata(
+  $where: CompanyWhereInput!
+  $orderBy: [CompanyOrderByWithRelationInput!]
+) {
+  companiesPublicData(where: $where, orderBy: $orderBy) {
+    id
+    name
+    coverImageFile {
+      container
+      blobName
+      name
+    }
+    logoImageFile {
+      container
+      blobName
+      name
+    }
+  }
+}

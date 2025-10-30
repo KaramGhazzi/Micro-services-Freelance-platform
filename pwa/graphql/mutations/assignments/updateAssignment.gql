@@ -1,0 +1,12 @@
+mutation updateAssignmentAdmin(
+  $data: AssignmentUpdateInput!
+  $assignmentId: Int
+) {
+  updateAssignmentAdmin(data: $data, assignmentId: $assignmentId) {
+    id
+    expertises {
+      id
+      expertise
+    }
+  }
+}

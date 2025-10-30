@@ -1,0 +1,5 @@
+mutation RequestInvitation($cocNumber: String!) {
+  requestInvitation(cocNumber: $cocNumber) {
+    success
+  }
+}

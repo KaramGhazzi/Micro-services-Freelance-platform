@@ -1,0 +1,28 @@
+.tippy-box[data-theme~='neutral'] {
+  @apply bg-neutral-900 text-xs font-semibold text-white antialiased;
+}
+
+.tippy-box[data-theme~='neutral'] .tippy-content {
+  @apply p-[6px];
+}
+
+.tippy-box[data-theme~='neutral'] > .tippy-arrow::before {
+  transform: scale(0.75);
+}
+
+.tippy-box[data-theme~='neutral'][data-placement^='top']
+  > .tippy-arrow::before {
+  @apply border-t-neutral-900;
+}
+.tippy-box[data-theme~='neutral'][data-placement^='bottom']
+  > .tippy-arrow::before {
+  @apply border-b-neutral-900;
+}
+.tippy-box[data-theme~='neutral'][data-placement^='left']
+  > .tippy-arrow::before {
+  @apply border-l-neutral-900;
+}
+.tippy-box[data-theme~='neutral'][data-placement^='right']
+  > .tippy-arrow::before {
+  @apply border-r-neutral-900;
+}

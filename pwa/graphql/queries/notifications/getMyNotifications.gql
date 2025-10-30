@@ -1,0 +1,20 @@
+query getMyNotifications(
+  $where: NotificationWhereInput
+  $orderBy: [NotificationOrderByWithRelationInput!]
+  $skip: Int
+  $take: Int
+) {
+  count: myNotificationCount(where: $where)
+  myNotifications: myNotifications(
+    where: $where
+    orderBy: $orderBy
+    skip: $skip
+    take: $take
+  ) {
+    id
+    type
+    readAt
+    createdAt
+    data
+  }
+}

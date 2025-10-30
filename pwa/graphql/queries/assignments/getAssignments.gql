@@ -1,0 +1,13 @@
+query getAssignments(
+  $where: AssignmentWhereInput!
+  $skip: Int
+  $take: Int
+  $orderBy: [AssignmentOrderByWithRelationInput!]
+) {
+  count: countAssignments(where: $where)
+  assignments(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+    ...assignmentsFragment
+    isRandomlyVisible
+    isFavorite
+  }
+}

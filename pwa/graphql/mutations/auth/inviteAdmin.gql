@@ -1,0 +1,15 @@
+mutation InviteAdmin(
+  $email: String!
+  $userCompanyRole: String!
+  $message: String!
+  $companyId: Float!
+) {
+  invite: inviteAdmin(
+    email: $email
+    userCompanyRole: $userCompanyRole
+    message: $message
+    companyId: $companyId
+  ) {
+    success
+  }
+}

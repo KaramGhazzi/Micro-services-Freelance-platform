@@ -1,0 +1,3 @@
+mutation DeleteApplicationProfile($applicationProfileId: Int!) {
+  deleteApplicationProfile(applicationProfileId: $applicationProfileId)
+}

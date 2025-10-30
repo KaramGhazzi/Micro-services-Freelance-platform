@@ -1,0 +1,23 @@
+onepassword:
+  enabled: true
+  vault: k8s-production
+
+ingress:
+  hosts:
+    - mijn.{{DEPLOY_BASE_URL}}
+  certificate:
+    enabled: true
+    certManagerVersion: v1
+    commonName: mijn.{{DEPLOY_BASE_URL}}
+    dnsNames:
+      - mijn.{{DEPLOY_BASE_URL}}
+
+configmapdata:
+  NEXT_PUBLIC_GRAPHQL_URL: https://api.{{DEPLOY_BASE_URL}}
+  NEXT_PUBLIC_CDN_URL: https://freelancepf{{STAGE}}blob.blob.core.windows.net
+  NEXT_PUBLIC_BASE_URL: 'https://mijn.{{DEPLOY_BASE_URL}}'
+  NEXT_PUBLIC_MARKETING_SITE_COMPANY_PROFILE: https://www.freelance.nl/profiel/
+  NEXT_PUBLIC_HUBSPOT_FORM_SUBMIT_API_URL: https://api.hsforms.com/submissions/v3/integration/submit
+secrets:
+  app: true
+  shared: true

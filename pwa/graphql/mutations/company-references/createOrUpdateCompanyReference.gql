@@ -1,0 +1,22 @@
+mutation CreateOrUpdateCompanyReference(
+  $data: CompanyReferenceUpdateInput!
+  $fileInput: FileInputData
+  $companyReferenceId: Float
+) {
+  createOrUpdateCompanyReference(
+    data: $data
+    fileInput: $fileInput
+    companyReferenceId: $companyReferenceId
+  ) {
+    id
+    content
+    companyId
+    refereeCompanyName
+    refereeJob
+    refereeFullName
+    referenceImageFile {
+      blobName
+      container
+    }
+  }
+}

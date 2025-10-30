@@ -1,0 +1,65 @@
+chart_version: 0.9.0
+kind: Deployment
+port:
+  enabled: true
+  name: pwa
+  value: 3000
+  protocol: TCP
+
+autoscaling:
+  enabled: true
+  maxReplicas: 3
+  minReplicas: 1
+  targetCPU: 85
+  targetMemory: 85
+
+resources:
+  requests:
+    cpu: 450m
+    memory: 200Mi
+  limits:
+    cpu: 450m
+    memory: 200Mi
+
+image:
+  registry: freelancepf{{STAGE}}registry.azurecr.io
+  repository: freelance-platform-pwa
+  tag: '{{TAG}}'
+
+service:
+  enabled: true
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+  controller: nginx
+  hosts:
+    - pwa.freelance-{{STAGE}}.{{DEPLOY_BASE_URL}}
+  certificate:
+    enabled: true
+    certManagerVersion: v1
+    commonName: pwa.freelance-{{STAGE}}.{{DEPLOY_BASE_URL}}
+    dnsNames:
+      - pwa.freelance-{{STAGE}}.{{DEPLOY_BASE_URL}}
+
+configmaps:
+  enabled: true
+  shared: false
+
+configmapdata:
+  NEXT_PUBLIC_GRAPHQL_URL: https://api.freelance-{{STAGE}}.{{DEPLOY_BASE_URL}}
+  NEXT_PUBLIC_CDN_URL: https://freelancepf{{STAGE}}blob.blob.core.windows.net
+  NEXT_PUBLIC_BASE_URL: https://pwa.freelance-{{STAGE}}.{{DEPLOY_BASE_URL}}
+  NEXT_PUBLIC_MARKETING_SITE_COMPANY_PROFILE: https://www.freelance.nl/profiel/
+  NEXT_PUBLIC_HUBSPOT_FORM_SUBMIT_API_URL: https://api.hsforms.com/submissions/v3/integration/submit
+secrets:
+  app: true
+  shared: true
+
+onepassword:
+  enabled: true
+  vault: k8s-staging

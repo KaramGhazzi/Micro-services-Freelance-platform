@@ -1,0 +1,26 @@
+query Checkout($where: CheckoutWhereInput!) {
+  checkout(where: $where) {
+    session {
+      amount_total
+      invoice
+      amount_subtotal
+      total_details {
+        amount_tax
+      }
+    }
+    planId
+    companyId
+    plan {
+      contracts {
+        id
+      }
+      slug
+      usageAmount
+      product {
+        modeType
+        externalProviderId
+        name
+      }
+    }
+  }
+}

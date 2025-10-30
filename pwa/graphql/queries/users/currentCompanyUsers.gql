@@ -1,0 +1,16 @@
+query currentCompanyUsers(
+  $where: UserWhereInput!
+  $skip: Int
+  $take: Int
+  $orderBy: [UserOrderByWithRelationInput!]
+) {
+  count: countCurrentCompanyUsers(where: $where)
+  users: currentCompanyUsers(
+    where: $where
+    skip: $skip
+    take: $take
+    orderBy: $orderBy
+  ) {
+    ...userFragment
+  }
+}

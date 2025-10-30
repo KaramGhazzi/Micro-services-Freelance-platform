@@ -1,0 +1,15 @@
+query savedSearch($where: SavedSearchFindUniqueInput!, $markAsViewed: Boolean) {
+  savedSearch(where: $where, markAsViewed: $markAsViewed) {
+    id
+    minHoursPerWeek
+    maxHoursPerWeek
+    noMatchingIntermediaries
+    batchAlert
+    instantAlert
+    searchTags
+    locations
+    onLocation
+    description
+    expertises
+  }
+}

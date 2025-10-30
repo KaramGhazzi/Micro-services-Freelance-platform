@@ -1,0 +1,8 @@
+mutation UpdateCompanyImage(
+  $data: FileInputData!
+  $imageType: CompanyImageType!
+) {
+  updateCompanyImage(data: $data, imageType: $imageType) {
+    id
+  }
+}

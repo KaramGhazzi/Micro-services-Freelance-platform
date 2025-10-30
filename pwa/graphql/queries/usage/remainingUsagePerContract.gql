@@ -1,0 +1,11 @@
+query RemainingUsagePerContract {
+  remainingUsage {
+    usageType
+    amount
+    refreshDate
+    contractAmount
+    productSlug
+    contractStartDate
+    contractEndDate
+  }
+}

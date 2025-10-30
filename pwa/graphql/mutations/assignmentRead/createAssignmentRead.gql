@@ -1,0 +1,5 @@
+mutation createAssignmentRead($assignmentId: Float!) {
+  createAssignmentRead(assignmentId: $assignmentId) {
+    id
+  }
+}

@@ -1,0 +1,10 @@
+mutation checkoutInvoiceCreate(
+  $checkoutInvoiceCreateInput: CheckoutInvoiceCreateInput!
+) {
+  checkoutInvoiceCreate(
+    checkoutInvoiceCreateInput: $checkoutInvoiceCreateInput
+  ) {
+    isSuccessful
+    token
+  }
+}

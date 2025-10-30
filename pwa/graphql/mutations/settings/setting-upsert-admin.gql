@@ -1,0 +1,20 @@
+mutation settingUpsertAdmin(
+  $key: String!
+  $value: String!
+  $type: SettingType!
+  $userId: Int!
+  $settingId: Int
+) {
+  settingUpsert: settingUpsertAdmin(
+    key: $key
+    value: $value
+    type: $type
+    userId: $userId
+    settingId: $settingId
+  ) {
+    id
+    key
+    value
+    type
+  }
+}

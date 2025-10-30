@@ -1,0 +1,7 @@
+mutation createAssignmentApplicationRead($assignmentApplicationId: Float!) {
+  createAssignmentApplicationRead(
+    assignmentApplicationId: $assignmentApplicationId
+  ) {
+    id
+  }
+}

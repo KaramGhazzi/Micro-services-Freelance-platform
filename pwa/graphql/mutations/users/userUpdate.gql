@@ -1,0 +1,21 @@
+mutation userUpdate($id: Int!, $data: UserUpdateInput!) {
+  userUpdate(id: $id, data: $data) {
+    id
+    firstName
+    lastName
+    email
+    dateOfBirth
+    phoneNumber
+    linkedInUrl
+    userCompanies {
+      userId
+      companyId
+    }
+    settings {
+      id
+      key
+      type
+      value
+    }
+  }
+}

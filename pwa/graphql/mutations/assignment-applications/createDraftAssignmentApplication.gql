@@ -1,0 +1,14 @@
+mutation createDraftAssignmentApplication(
+  $data: AssignmentApplicationUpdateInput!
+  $assignmentId: Int!
+  $assignmentApplicationId: Int
+) {
+  createDraftAssignmentApplication(
+    data: $data
+    assignmentId: $assignmentId
+    assignmentApplicationId: $assignmentApplicationId
+  ) {
+    id
+    uuid
+  }
+}

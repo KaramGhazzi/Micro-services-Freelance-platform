@@ -1,0 +1,17 @@
+fragment assignmentsFragment on Assignment {
+  id
+  uuid
+  ...assignmentDetailFragment
+  assignmentApplications {
+    id
+    uuid
+    isRead
+    _count {
+      documents
+    }
+    owner {
+      id
+    }
+  }
+  description
+}

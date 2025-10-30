@@ -1,0 +1,27 @@
+fragment assignmentCardFragment on Assignment {
+  id
+  title
+  type
+  rateType
+  publishAt
+  createdAt
+  contractType
+  updatedAt
+  commentsCount
+  viewsCount
+  externalCode
+  status
+  currentStatus {
+    key
+    description
+  }
+  company {
+    id
+    name
+  }
+  owner {
+    id
+    firstName
+    lastName
+  }
+}

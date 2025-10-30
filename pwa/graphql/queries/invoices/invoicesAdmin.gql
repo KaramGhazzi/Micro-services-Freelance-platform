@@ -1,0 +1,12 @@
+query InvoicesAdmin($companyId: Int, $skip: Int, $take: Int) {
+  invoices: invoicesAdmin(companyId: $companyId, take: $take, skip: $skip) {
+    id
+    name
+    status
+    date
+    priceExVat
+    priceInclVat
+    downloadLink
+    subscription
+  }
+}

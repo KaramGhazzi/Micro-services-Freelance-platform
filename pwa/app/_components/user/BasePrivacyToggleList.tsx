@@ -1,0 +1,44 @@
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import BaseToggle from '@/app/_components/BaseToggle';
+
+export class PrivacyFormData {
+  [key: string]: any;
+  informEmployersAnonymouslyWhenMatched: boolean = false;
+  provideEmployersWithCvWhenMatched: boolean = false;
+  informAboutProductsAndServices: boolean = false;
+  shareWithMotherAndSisterCompanies: boolean = false;
+  sendNewsletter: boolean = false;
+  askForFeedback: boolean = false;
+  sendContent: boolean = false;
+}
+
+interface Props {
+  formData?: PrivacyFormData;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  gap: number;
+}
+
+const PrivacyToggle: React.FC<Props> = ({ formData, onChange, gap }) => {
+  const t = useTranslations('auth');
+
+  return (
+    <div
+      className={`col-span-2 grid gap-${gap} lg:grid lg:grid-cols-1 lg:gap-${gap}`}
+    >
+      {Object.keys(new PrivacyFormData()).map((key) => (
+        <BaseToggle
+          key={key}
+          label={t(`privacySettingsLabels.${key}`)}
+          name={key}
+          checked={formData?.[key] ?? false}
+          onChange={onChange}
+          withBackgroundColor
+          required
+        />
+      ))}
+    </div>
+  );
+};
+
+export default PrivacyToggle;

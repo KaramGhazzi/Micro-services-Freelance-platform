@@ -1,0 +1,6 @@
+mutation UserCompanyUpdate(
+  $data: UpdateUsersCompaniesInput!
+  $where: UsersCompaniesWhereUniqueInput!
+) {
+  userCompanyUpdate(data: $data, where: $where)
+}

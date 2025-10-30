@@ -1,0 +1,50 @@
+query search(
+  $query: SearchQueryInput!
+  $limit: Int
+  $offset: Int
+  $showFavoritesOnly: Boolean
+  $sortMethod: String
+) {
+  search(
+    query: $query
+    limit: $limit
+    offset: $offset
+    showFavoritesOnly: $showFavoritesOnly
+    sortMethod: $sortMethod
+  ) {
+    count
+    results {
+      docID
+      score
+      assignment {
+        id
+        title
+        rateType
+        publishAt
+        hideInDescription
+        viewsCount
+        commentsCount
+        status
+        replied
+        uuid
+        type
+        place
+        companyId
+        company {
+          id
+          logoImageFile {
+            id
+            blobName
+            container
+          }
+          name
+        }
+        description
+        descriptionIsVisible
+        isRandomlyVisible
+        isRead
+        isFavorite
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #b3bec6;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.prose li p {
+  margin: 0;
+}

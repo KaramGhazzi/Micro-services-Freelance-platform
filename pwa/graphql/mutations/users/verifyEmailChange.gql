@@ -1,0 +1,10 @@
+mutation VerifyEmailChange($token: String!, $password: String!) {
+  verifyEmailChange(token: $token, password: $password) {
+    idToken
+    refreshToken
+    permissionsByCompany {
+      companyId
+      permissions
+    }
+  }
+}

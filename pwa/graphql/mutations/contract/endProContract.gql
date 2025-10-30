@@ -1,0 +1,13 @@
+mutation endProContract(
+  $proEndDate: String!
+  $basicCompanyStartDate: String!
+  $companyId: Float!
+) {
+  endProContract(
+    proEndDate: $proEndDate
+    basicCompanyStartDate: $basicCompanyStartDate
+    companyId: $companyId
+  ) {
+    isSuccessful
+  }
+}

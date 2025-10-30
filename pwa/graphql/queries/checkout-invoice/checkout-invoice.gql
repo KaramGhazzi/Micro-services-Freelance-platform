@@ -1,0 +1,12 @@
+query CheckoutInvoice($token: String!) {
+  checkoutInvoice(token: $token) {
+    invoiceId
+    value
+    tax
+    currency
+    itemName
+    quantity
+    itemId
+    productId
+  }
+}

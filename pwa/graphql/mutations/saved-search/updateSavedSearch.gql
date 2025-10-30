@@ -1,0 +1,21 @@
+mutation UpdateSavedSearch(
+  $data: SavedSearchUpdateInput!
+  $where: SavedSearchFindUniqueInput!
+) {
+  updateSavedSearch(data: $data, where: $where) {
+    id
+    description
+    batchAlert
+    instantAlert
+    lastViewedAt
+    newMatchesCount
+    searchTags
+    expertises
+    locations
+    onLocation
+    noMatchingIntermediaries
+    minHoursPerWeek
+    maxHoursPerWeek
+    updatedAt
+  }
+}

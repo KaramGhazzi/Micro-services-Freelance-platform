@@ -1,0 +1,11 @@
+query canReview(
+  $companyId: Int!
+  $assignmentId: Int!
+  $assignmentOwnerId: Int!
+) {
+  canReview(
+    companyId: $companyId
+    assignmentId: $assignmentId
+    assignmentOwnerId: $assignmentOwnerId
+  )
+}

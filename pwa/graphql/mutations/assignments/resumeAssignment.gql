@@ -1,0 +1,5 @@
+mutation resumeAssignment($assignmentId: Int!) {
+  resumeAssignment(assignmentId: $assignmentId) {
+    id
+  }
+}

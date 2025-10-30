@@ -1,0 +1,8 @@
+query mySavedSearches(
+  $where: SavedSearchWhereInput
+  $orderBy: [SavedSearchOrderByWithRelationInput!]
+) {
+  savedSearches: mySavedSearches(where: $where, orderBy: $orderBy) {
+    ...savedSearchFragment
+  }
+}

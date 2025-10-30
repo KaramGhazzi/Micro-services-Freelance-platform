@@ -1,0 +1,15 @@
+query Products {
+  products {
+    modeType
+    metadata {
+      slug
+      type
+      order
+    }
+
+    prices {
+      unit_amount
+    }
+    name
+  }
+}

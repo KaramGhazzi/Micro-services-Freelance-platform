@@ -1,0 +1,39 @@
+fragment assignmentDetailFragment on Assignment {
+  id
+  title
+  type
+  rateType
+  publishAt
+  createdAt
+  contractType
+  updatedAt
+  commentsCount
+  viewsCount
+  externalCode
+  status
+  expertises {
+    id
+    expertise
+  }
+  currentStatus {
+    key
+    description
+  }
+  company {
+    id
+    name
+  }
+  owner {
+    id
+    firebaseUid
+    externalId
+    firstName
+    lastName
+    profilePhoto {
+      blobName
+      container
+    }
+  }
+  applyEnabled
+  reviewEnabled
+}

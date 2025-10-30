@@ -1,0 +1,28 @@
+query CompanyDetails(
+  $where: CompanyWhereInput!
+  $orderBy: [CompanyOrderByWithRelationInput!]
+) {
+  company(where: $where, orderBy: $orderBy) {
+    cocNumber
+    billingEmail
+    vatNumber
+    websiteUrl
+    contracts {
+      id
+      startDate
+      endDate
+      renewalInterval
+      usageInterval
+      usageAmount
+      plan {
+        product {
+          slug
+          name
+        }
+      }
+    }
+    ...companyFragment
+    ...companyAddressFragment
+    ...companyBillingAddressFragment
+  }
+}

@@ -1,0 +1,11 @@
+query users(
+  $where: UserWhereInput!
+  $skip: Int
+  $take: Int
+  $orderBy: [UserOrderByWithRelationInput!]
+) {
+  count: countUsers(where: $where)
+  users(where: $where, skip: $skip, take: $take, orderBy: $orderBy) {
+    ...userFragment
+  }
+}

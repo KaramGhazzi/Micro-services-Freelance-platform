@@ -1,0 +1,3 @@
+query HasCompanyProfile($companyId: Int!) {
+  hasCompanyProfile(companyId: $companyId)
+}

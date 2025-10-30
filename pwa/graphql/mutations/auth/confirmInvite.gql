@@ -1,0 +1,24 @@
+mutation ConfirmInvite(
+  $inviteToken: String!
+  $firstName: String!
+  $lastName: String!
+  $password: String!
+  $phoneNumber: String!
+  $privacySettings: PrivacySettings!
+) {
+  confirmInvite(
+    inviteToken: $inviteToken
+    firstName: $firstName
+    lastName: $lastName
+    password: $password
+    phoneNumber: $phoneNumber
+    privacySettings: $privacySettings
+  ) {
+    idToken
+    refreshToken
+    permissionsByCompany {
+      companyId
+      permissions
+    }
+  }
+}

@@ -1,0 +1,3 @@
+mutation UpdateCompanyType($companyId: Float!, $type: CompanyType!) {
+  companyTypeUpdate(companyId: $companyId, type: $type)
+}

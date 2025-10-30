@@ -1,0 +1,6 @@
+mutation createApplicationProfile($data: ApplicationProfileCreateInput!) {
+  createApplicationProfile(data: $data) {
+    id
+    uuid
+  }
+}

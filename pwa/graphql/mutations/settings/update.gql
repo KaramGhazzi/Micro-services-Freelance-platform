@@ -1,0 +1,13 @@
+mutation settingUpsert(
+  $key: String!
+  $value: String!
+  $type: SettingType!
+  $settingId: Int
+) {
+  settingUpsert(key: $key, value: $value, type: $type, settingId: $settingId) {
+    id
+    key
+    value
+    type
+  }
+}

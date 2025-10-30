@@ -1,0 +1,21 @@
+fragment assignmentApplicationAdminListFragment on AssignmentApplication {
+  id
+  createdAt
+  status
+  currentStatus {
+    key
+    description
+    createdAt
+  }
+  owner {
+    firstName
+    lastName
+    profilePhoto {
+      blobName
+      id
+      name
+      uuid
+      container
+    }
+  }
+}

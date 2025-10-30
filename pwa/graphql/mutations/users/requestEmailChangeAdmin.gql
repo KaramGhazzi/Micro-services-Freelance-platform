@@ -1,0 +1,5 @@
+mutation RequestEmailChangeAdmin($userId: Int!, $email: String!) {
+  requestEmailChangeAdmin(userId: $userId, email: $email) {
+    success
+  }
+}

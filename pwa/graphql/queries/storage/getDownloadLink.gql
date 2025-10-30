@@ -1,0 +1,5 @@
+query FileDownloadLink($containerName: String!, $blobName: String!) {
+  fileDownloadLink(containerName: $containerName, blobName: $blobName) {
+    url
+  }
+}

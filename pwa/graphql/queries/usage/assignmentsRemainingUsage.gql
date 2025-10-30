@@ -1,0 +1,11 @@
+query AssignmentsRemainingUsage {
+  assignmentsRemainingUsage {
+    usageType
+    amount
+    refreshDate
+    contractAmount
+    productSlug
+    contractStartDate
+    contractEndDate
+  }
+}

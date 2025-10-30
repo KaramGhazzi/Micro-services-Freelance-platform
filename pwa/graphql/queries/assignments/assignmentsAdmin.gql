@@ -1,0 +1,16 @@
+query assignmentsAdmin(
+  $where: AssignmentWhereInput!
+  $skip: Int
+  $take: Int
+  $orderBy: [AssignmentOrderByWithRelationInput!]
+) {
+  count: countAssignmentsAdmin(where: $where)
+  assignments: assignmentsAdmin(
+    where: $where
+    skip: $skip
+    take: $take
+    orderBy: $orderBy
+  ) {
+    ...assignmentsFragment
+  }
+}

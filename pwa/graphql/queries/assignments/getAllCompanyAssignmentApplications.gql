@@ -1,0 +1,25 @@
+query getAllCompanyAssignmentApplications(
+  $companyId: Int!
+  $skip: Int
+  $take: Int
+) {
+  count: countAllCompanyAssignmentApplications(companyId: $companyId)
+  applications: allCompanyAssignmentApplications(
+    companyId: $companyId
+    skip: $skip
+    take: $take
+  ) {
+    ...assignmentApplicationAdminListFragment
+    assignment {
+      id
+      title
+      owner {
+        firstName
+        lastName
+      }
+      company {
+        name
+      }
+    }
+  }
+}

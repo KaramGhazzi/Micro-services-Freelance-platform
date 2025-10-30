@@ -1,0 +1,5 @@
+query remainingUsageByProductSlug($productSlug: String!) {
+  remainingUsageByProductSlug(productSlug: $productSlug) {
+    amount
+  }
+}

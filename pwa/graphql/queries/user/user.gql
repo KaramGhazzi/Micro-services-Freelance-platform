@@ -1,0 +1,35 @@
+query user($id: Int!) {
+  user(id: $id) {
+    id
+    email
+    emailChange
+    firstName
+    lastName
+    dateOfBirth
+    phoneNumber
+    createdAt
+    updatedAt
+    confirmedAt
+    confirmationToken
+    settings {
+      id
+      key
+      type
+      value
+    }
+    assignments {
+      id
+    }
+    linkedInUrl
+    userCompanies {
+      companyId
+      company {
+        name
+        type
+      }
+      userCompanyRoles {
+        role
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+query checkEmailChange($token: String!) {
+  checkEmailChange(token: $token) {
+    success
+  }
+}

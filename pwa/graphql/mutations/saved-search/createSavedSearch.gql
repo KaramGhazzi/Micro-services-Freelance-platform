@@ -1,0 +1,5 @@
+mutation CreateSavedSearch($data: SavedSearchCreateInput!) {
+  createSavedSearch(data: $data) {
+    id
+  }
+}

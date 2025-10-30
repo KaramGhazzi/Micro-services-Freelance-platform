@@ -1,0 +1,20 @@
+{
+  "extends": "@package/config/typescript/nextjs",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "target": "ES2015",
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"],
+      "@gql/queries": ["./graphql/queries"],
+      "@gql/mutation": ["./graphql/mutation"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,5 @@
+mutation declineAssignmentReviewMutation($data: DeclineAssignment!) {
+  reviewDeclined(data: $data) {
+    key
+  }
+}

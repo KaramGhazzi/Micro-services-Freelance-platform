@@ -1,0 +1,5 @@
+mutation requestAssignmentReviewMutation($assignmentId: Int!) {
+  requestAssignmentReview(assignmentId: $assignmentId) {
+    key
+  }
+}

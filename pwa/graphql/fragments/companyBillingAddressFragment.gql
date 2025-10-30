@@ -1,0 +1,10 @@
+fragment companyAddressFragment on Company {
+  address {
+    ...addressFragment
+  }
+}
+fragment companyBillingAddressFragment on Company {
+  billingAddress {
+    ...addressFragment
+  }
+}

@@ -1,0 +1,5 @@
+mutation CancelSubscription($contractId: Float!) {
+  cancelSubscription(contractId: $contractId) {
+    endDate: current_period_end
+  }
+}

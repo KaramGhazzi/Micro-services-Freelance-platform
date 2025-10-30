@@ -1,0 +1,23 @@
+query getMyApplicationProfile($where: ApplicationProfileWhereInput!) {
+  myApplicationProfile(where: $where) {
+    id
+    title
+    rateFrom
+    rateTo
+    rateType
+    background
+    expertises
+    personalQualities
+    availableFrom
+    availability
+    availableHours
+    documents {
+      id
+      file {
+        container
+        blobName
+        name
+      }
+    }
+  }
+}

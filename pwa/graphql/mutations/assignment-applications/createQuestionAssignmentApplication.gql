@@ -1,0 +1,38 @@
+mutation CreateQuestionAssignmentApplication(
+  $assignmentId: Int!
+  $questionText: String!
+) {
+  createQuestionAssignmentApplication(
+    assignmentId: $assignmentId
+    questionText: $questionText
+  ) {
+    id
+    owner {
+      externalId
+      firstName
+      id
+      lastName
+      firebaseUid
+    }
+    assignment {
+      status
+      owner {
+        firstName
+        id
+        lastName
+        firebaseUid
+        profilePhoto {
+          container
+          blobName
+        }
+      }
+      company {
+        name
+      }
+      currentStatus {
+        key
+      }
+      title
+    }
+  }
+}

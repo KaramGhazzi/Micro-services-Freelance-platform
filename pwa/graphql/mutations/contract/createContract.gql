@@ -1,0 +1,5 @@
+mutation createContract($input: CustomContractCreateInput!) {
+  createContract(input: $input) {
+    success
+  }
+}

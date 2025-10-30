@@ -1,0 +1,11 @@
+mutation CreateFileForAssignmentApplication(
+  $data: FileInputData!
+  $assignmentApplicationUUID: String!
+) {
+  createFileForAssignmentApplication(
+    data: $data
+    assignmentApplicationUUID: $assignmentApplicationUUID
+  ) {
+    name
+  }
+}

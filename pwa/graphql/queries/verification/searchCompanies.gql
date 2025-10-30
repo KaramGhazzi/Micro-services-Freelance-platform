@@ -1,0 +1,16 @@
+query VerificationSearchCompanies(
+  $countryCode: VerificationCountryCodes!
+  $query: String!
+  $pageSize: Float
+) {
+  verificationSearchCompanies(
+    countryCode: $countryCode
+    query: $query
+    pageSize: $pageSize
+  ) {
+    address
+    city
+    identificationNumber
+    name
+  }
+}

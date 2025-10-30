@@ -1,0 +1,5 @@
+mutation CompanyCreate($data: CompanyCreateInput!) {
+  companyCreate(data: $data) {
+    id
+  }
+}

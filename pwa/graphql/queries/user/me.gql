@@ -1,0 +1,84 @@
+query me {
+  me {
+    id
+    firebaseUid
+    externalId
+    firstName
+    lastName
+    email
+    emailChange
+    dateOfBirth
+    phoneNumber
+    linkedInUrl
+    settings {
+      id
+      key
+      type
+      value
+    }
+    termsConditionsAcceptedAt
+    termsConditionsVersion
+    createdAt
+    updatedAt
+    role
+    profilePhoto {
+      blobName
+      id
+      name
+      uuid
+      container
+    }
+    userCompanies {
+      id
+      company {
+        id
+        name
+        email
+        billingEmail
+        type
+        cocNumber
+        vatNumber
+        websiteUrl
+        about
+        youtubeUrl
+        showCurrentAssignments
+        showEmployees
+        coverImageFile {
+          id
+          uuid
+          blobName
+          container
+        }
+        logoImageFile {
+          id
+          uuid
+          blobName
+          container
+        }
+        ...companyAddressFragment
+        ...companyBillingAddressFragment
+        companyReferences {
+          id
+          content
+          companyId
+          refereeCompanyName
+          refereeJob
+          refereeFullName
+          referenceImageFile {
+            blobName
+            container
+          }
+        }
+        assignmentCount
+        openAssignmentCount
+        recruiterCount
+        latestTopReviewText
+        createdAt
+      }
+      userCompanyRoles {
+        role
+      }
+    }
+  }
+  myNotificationCount
+}

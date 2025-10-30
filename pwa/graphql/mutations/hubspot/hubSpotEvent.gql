@@ -1,0 +1,3 @@
+mutation HubSpotEvent($eventName: String!, $utk: String!) {
+  hubSpotEvent(eventName: $eventName, utk: $utk)
+}

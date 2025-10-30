@@ -1,0 +1,42 @@
+fragment assignmentApplicationFragment on AssignmentApplication {
+  id
+  availability
+  availableHours
+  background
+  city
+  createdAt
+  company {
+    id
+    name
+  }
+  status
+  currentStatus {
+    key
+    description
+    createdAt
+  }
+  email
+  expertises
+  id
+  linkedInURL
+  motivation
+  owner {
+    externalId
+    firstName
+    lastName
+    email
+    id
+    profilePhoto {
+      container
+      blobName
+    }
+  }
+  personalQualities
+  phoneNumber
+  rateFrom
+  rateTo
+  rateType
+  updatedAt
+  websiteURL
+  isRead
+}

@@ -1,0 +1,11 @@
+mutation CreateFileForApplicationProfile(
+  $data: FileInputData!
+  $applicationProfileUUID: String!
+) {
+  createFileForApplicationProfile(
+    data: $data
+    applicationProfileUUID: $applicationProfileUUID
+  ) {
+    name
+  }
+}
