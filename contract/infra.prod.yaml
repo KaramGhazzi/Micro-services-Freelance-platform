@@ -1,0 +1,11 @@
+configmapdata:
+  AZURE_SERVICE_BUS_SUBSCRIPTION: 'contract'
+  STRIPE_SUCCESS_RETURN_PAGE: 'https://mijn.{{DEPLOY_BASE_URL}}/betaling/bevestiging'
+  STRIPE_FAILURE_RETURN_PAGE: 'https://mijn.{{DEPLOY_BASE_URL}}/betaling/mislukt'
+  STRIPE_API_VERSION: '2023-08-16'
+  LOG_LEVELS: log,error
+  DEPLOYED_ENVIRONMENT: '{{STAGE}}'
+
+onepassword:
+  enabled: true
+  vault: k8s-production

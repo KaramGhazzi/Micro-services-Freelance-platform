@@ -1,0 +1,25 @@
+workload:
+  command: ['npm', 'run', 'start:feat', '--prefix', 'apps/contract']
+
+configmapdata:
+  PWA_URL: 'https://pwa-{{SUFFIX}}.freelance-develop.{{DEPLOY_BASE_URL}}'
+  STRIPE_SUCCESS_RETURN_PAGE: 'https://pwa-{{SUFFIX}}.freelance-develop.{{DEPLOY_BASE_URL}}/betaling/bevestiging'
+  STRIPE_FAILURE_RETURN_PAGE: 'https://pwa-{{SUFFIX}}.freelance-develop.{{DEPLOY_BASE_URL}}/betaling/mislukt'
+  NODE_OPTIONS: '--max-old-space-size=300'
+  SB_TOPIC_PREFIX: '{{SUFFIX}}'
+  CONTRACT_DATABASE_URL: '{{DATABASE_URL}}'
+
+startupProbe:
+  failureThreshold: 300
+
+secrets:
+  app: true
+  appNameOverride: scrt-freelance-platform-contract-develop
+  custom:
+    enabled: true
+    name: scrt-freelance-platform-contract-feat
+  shared: true
+  sharedNameOverride: scrt-freelance-platform-shared-feat
+
+image:
+  registry: freelancepfdevelopregistry.azurecr.io

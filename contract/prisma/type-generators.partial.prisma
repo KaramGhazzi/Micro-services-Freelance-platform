@@ -1,0 +1,16 @@
+
+generator nestgraphql {
+  provider           = "prisma-nestjs-graphql"
+  prismaClientImport = "@freelance/contract/client"
+  output             = "../types/graphql/@generated"
+  reExport           = "All"
+  tsConfigFilePath   = "./tsconfig.json"
+  noAtomicOperations = "true"
+  purgeOutput        = "true"
+}
+
+generator class_validator {
+  provider = "prisma-class-validator-generator"
+  output   = "../../../packages/types/src/class-validator/@generated/contract"
+}
+

@@ -1,0 +1,184 @@
+generator client {
+  output        = "../node_modules/@freelance/contract/client"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x", "linux-musl", "darwin", "darwin-arm64", "linux-arm64-openssl-3.0.x", "rhel-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("CONTRACT_DATABASE_URL")
+}
+
+model ExternalProviderCompany {
+  companyId          Int     @id
+  externalProviderId String? @unique @db.VarChar(255)
+
+  checkout Checkout[]
+}
+
+model Checkout {
+  id        Int    @id @default(autoincrement())
+  planId    Int
+  companyId Int
+  userId    Int
+  token     String @unique
+  sessionId String @unique
+
+  company ExternalProviderCompany @relation(fields: [companyId], references: [companyId])
+  plan    Plan                    @relation(fields: [planId], references: [id])
+}
+
+model Contract {
+  id                     Int              @id @default(autoincrement())
+  companyId              Int
+  externalProviderId     String?          @db.VarChar(255)
+  invoiceId              String?          @db.VarChar(255)
+  planId                 Int
+  startDate              DateTime
+  endDate                DateTime?
+  usageType              UsageType
+  usageAmount            Int?
+  usageInterval          Interval?
+  usageIntervalCount     Int?
+  subscriptionExpireDate DateTime?
+  renewalInterval        RenewalInterval?
+
+  plan Plan @relation(fields: [planId], references: [id])
+}
+
+model Plan {
+  id                              Int              @id @default(autoincrement())
+  externalProviderId              String?          @db.VarChar(255)
+  externalProviderSync            Boolean
+  externalProviderPaymentMethodId String?          @db.VarChar(255)
+  slug                            String?
+  productId                       Int
+  usageType                       UsageType
+  usageAmount                     Int?
+  usageInterval                   Interval?
+  usageIntervalCount              Int?
+  renewalInterval                 RenewalInterval?
+
+  product   Product    @relation(fields: [productId], references: [id])
+  contracts Contract[]
+  checkouts Checkout[]
+}
+
+model Product {
+  id                   Int         @id @default(autoincrement())
+  externalProviderId   String?     @db.VarChar(255)
+  externalProviderSync Boolean
+  name                 String
+  slug                 ProductSlug @unique
+  description          String      @db.Text
+  plans                Plan[]
+  modeType             ModeType?
+}
+
+model Usage {
+  id        Int       @id @default(autoincrement())
+  type      UsageType
+  amount    Int
+  companyId Int
+  created   DateTime  @default(now())
+  objectId  Int?
+
+  @@unique([companyId, type, objectId])
+}
+
+model LegacyInvoice {
+  id           Int                 @id @default(autoincrement())
+  companyId    Int
+  createdAt    DateTime
+  description  String?
+  firstName    String?
+  lastName     String?
+  addressLine1 String?
+  addressLine2 String?
+  postalCode   String?
+  city         String?
+  status       LegacyInvoiceStatus
+
+  legacyInvoiceItems LegacyInvoiceItem[]
+}
+
+model LegacyInvoiceItem {
+  id              Int                   @id @default(autoincrement())
+  legacyInvoiceId Int
+  contractId      Int?
+  invoiceItemCode LegacyInvoiceItemCode
+  description     String?
+  startDate       DateTime?
+  endDate         DateTime?
+  amount          Int
+  price           Int
+  taxPercent      Int                   @default(21)
+
+  legacyInvoice LegacyInvoice @relation(fields: [legacyInvoiceId], references: [id])
+}
+
+enum UsageType {
+  ASSIGNMENT
+  ASSIGNMENT_VIEW
+  ASSIGNMENT_APPLICATION
+  COMPANY_PREMIUM_PROFILE
+  TOP_BOX
+}
+
+enum Interval {
+  WEEK
+  MONTH
+  QUARTER
+  HALF_YEAR
+  YEAR
+  NONE
+}
+
+enum RenewalInterval {
+  QUARTER
+  YEAR
+  MONTH
+  HALF_YEAR
+}
+
+enum ModeType {
+  PAYMENT
+  SETUP
+  SUBSCRIPTION
+}
+
+enum ProductSlug {
+  FREELANCER_BASIC
+  FREELANCER_PRO
+  COMPANY_BASIC
+  COMPANY_TOP
+  COMPANY_PREMIUM_ASSIGNMENT
+  COMPANY_PREMIUM_PROFILE
+  MARKETMONITOR_BASIC_VIEW
+  MARKETMONITOR_BASIC_APPLICATION
+  MARKETMONITOR_PREMIUM_VIEW
+  MARKETMONITOR_PREMIUM_APPLICATION
+  TOP_BOX
+}
+
+enum LegacyInvoiceStatus {
+  NEW
+  REMOVED
+  PAID
+  CREDITED
+  EXPIRED
+  OPEN
+  COLLECTION
+  COLLECTIONSENT
+  INTERNAL_PENDING
+  PENDING
+  CREDIT
+  CREDIT_PENDING
+  CREDIT_FAIL
+}
+
+enum LegacyInvoiceItemCode {
+  CONTRACT
+  CREDIT
+  DISCOUNT
+}

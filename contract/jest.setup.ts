@@ -1,0 +1,1 @@
+process.env.ENCRYPTION_KEY = 'mxNicd9OmKpLsd2NAEMQh0HFLiRfv8MWBZ18yYXdG9g=';

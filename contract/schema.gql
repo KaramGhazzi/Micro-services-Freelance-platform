@@ -1,0 +1,1589 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.3", import: ["@composeDirective", "@extends", "@external", "@inaccessible", "@interfaceObject", "@key", "@override", "@provides", "@requires", "@shareable", "@tag"])
+
+type StripeSubscriptionMetadata {
+  companyId: Float
+  type: String
+}
+
+type StripePriceRecurring {
+  aggregate_usage: String
+  interval: String!
+  interval_count: Float!
+  trial_period_days: Float
+  usage_type: String!
+}
+
+type StripePrice {
+  id: String!
+  object: String!
+  nickname: String
+  active: Boolean!
+  created: Float!
+  currency: String!
+  deleted: Boolean
+  livemode: Boolean!
+  lookup_key: String
+  product: String!
+  type: String!
+  unit_amount: Float
+  unit_amount_decimal: String
+  tax_behavior: String
+  recurring: StripePriceRecurring
+}
+
+type StripeSubscriptionItem {
+  id: String!
+  object: String!
+  created: Float!
+  deleted: Boolean
+  quantity: Float
+  subscription: String!
+  price: StripePrice!
+}
+
+type StripeSubscriptionItemList {
+  object: String!
+  data: [StripeSubscriptionItem!]!
+  has_more: Boolean!
+  url: String!
+}
+
+type StripeSubscription
+  @key(fields: "id")
+{
+  id: String
+  object: String
+  billing_cycle_anchor: Float
+  cancel_at: Float
+  cancel_at_period_end: Boolean
+  canceled_at: Float
+  collection_method: String!
+  created: Float
+  currency: String
+  current_period_end: Float
+  current_period_start: Float
+  customer: String
+  days_until_due: Float
+  default_payment_method: String
+  default_source: String
+  description: String
+  ended_at: Float
+  items: StripeSubscriptionItemList
+  latest_invoice: String
+  metadata: StripeSubscriptionMetadata
+  start_date: Float
+  status: String
+}
+
+type CreateContractOutput {
+  success: Boolean!
+}
+
+type EndProContractOutput {
+  isSuccessful: Boolean!
+}
+
+type UpdateContractOutput {
+  isSuccess: Boolean!
+}
+
+type CheckoutCountAggregate {
+  id: Int!
+  planId: Int!
+  companyId: Int!
+  userId: Int!
+  token: Int!
+  sessionId: Int!
+  _all: Int!
+}
+
+type CheckoutAvgAggregate {
+  id: Float
+  planId: Float
+  companyId: Float
+  userId: Float
+}
+
+type CheckoutSumAggregate {
+  id: Int
+  planId: Int
+  companyId: Int
+  userId: Int
+}
+
+type CheckoutMinAggregate {
+  id: Int
+  planId: Int
+  companyId: Int
+  userId: Int
+  token: String
+  sessionId: String
+}
+
+type CheckoutMaxAggregate {
+  id: Int
+  planId: Int
+  companyId: Int
+  userId: Int
+  token: String
+  sessionId: String
+}
+
+type ExternalProviderCompanyCount {
+  checkout: Int!
+}
+
+type ExternalProviderCompany {
+  companyId: ID!
+  externalProviderId: String
+  checkout: [Checkout!]
+  _count: ExternalProviderCompanyCount!
+}
+
+type ProductCount {
+  plans: Int!
+}
+
+type Product {
+  id: ID!
+  externalProviderId: String
+  externalProviderSync: Boolean!
+  name: String!
+  slug: ProductSlug!
+  description: String!
+  modeType: ModeType
+  plans: [Plan!]
+  _count: ProductCount!
+}
+
+enum ProductSlug {
+  FREELANCER_BASIC
+  FREELANCER_PRO
+  COMPANY_BASIC
+  COMPANY_TOP
+  COMPANY_PREMIUM_ASSIGNMENT
+  COMPANY_PREMIUM_PROFILE
+  MARKETMONITOR_BASIC_VIEW
+  MARKETMONITOR_BASIC_APPLICATION
+  MARKETMONITOR_PREMIUM_VIEW
+  MARKETMONITOR_PREMIUM_APPLICATION
+  TOP_BOX
+}
+
+enum ModeType {
+  PAYMENT
+  SETUP
+  SUBSCRIPTION
+}
+
+type Contract {
+  id: ID!
+  companyId: Int!
+  externalProviderId: String
+  invoiceId: String
+  planId: Int!
+  startDate: DateTime!
+  endDate: DateTime
+  usageType: UsageType!
+  usageAmount: Int
+  usageInterval: Interval
+  usageIntervalCount: Int
+  subscriptionExpireDate: DateTime
+  renewalInterval: RenewalInterval
+  plan: Plan!
+  subscription: StripeSubscription
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum UsageType {
+  ASSIGNMENT
+  ASSIGNMENT_VIEW
+  ASSIGNMENT_APPLICATION
+  COMPANY_PREMIUM_PROFILE
+  TOP_BOX
+}
+
+enum Interval {
+  WEEK
+  MONTH
+  QUARTER
+  HALF_YEAR
+  YEAR
+  NONE
+}
+
+enum RenewalInterval {
+  QUARTER
+  YEAR
+  MONTH
+  HALF_YEAR
+}
+
+type PlanCount {
+  contracts: Int!
+  checkouts: Int!
+}
+
+type Plan {
+  id: ID!
+  externalProviderId: String
+  externalProviderSync: Boolean!
+  externalProviderPaymentMethodId: String
+  slug: String
+  productId: Int!
+  usageType: UsageType!
+  usageAmount: Int
+  usageInterval: Interval
+  usageIntervalCount: Int
+  renewalInterval: RenewalInterval
+  product: Product!
+  contracts: [Contract!]
+  checkouts: [Checkout!]
+  _count: PlanCount!
+  price: StripePrice
+}
+
+type Checkout {
+  id: ID!
+  planId: Int!
+  companyId: Int!
+  userId: Int!
+  token: String!
+  sessionId: String!
+  company: ExternalProviderCompany!
+  plan: Plan!
+  session: StripeSession!
+}
+
+type ContractCountAggregate {
+  id: Int!
+  companyId: Int!
+  externalProviderId: Int!
+  invoiceId: Int!
+  planId: Int!
+  startDate: Int!
+  endDate: Int!
+  usageType: Int!
+  usageAmount: Int!
+  usageInterval: Int!
+  usageIntervalCount: Int!
+  subscriptionExpireDate: Int!
+  renewalInterval: Int!
+  _all: Int!
+}
+
+type ContractAvgAggregate {
+  id: Float
+  companyId: Float
+  planId: Float
+  usageAmount: Float
+  usageIntervalCount: Float
+}
+
+type ContractSumAggregate {
+  id: Int
+  companyId: Int
+  planId: Int
+  usageAmount: Int
+  usageIntervalCount: Int
+}
+
+type ContractMinAggregate {
+  id: Int
+  companyId: Int
+  externalProviderId: String
+  invoiceId: String
+  planId: Int
+  startDate: DateTime
+  endDate: DateTime
+  usageType: UsageType
+  usageAmount: Int
+  usageInterval: Interval
+  usageIntervalCount: Int
+  subscriptionExpireDate: DateTime
+  renewalInterval: RenewalInterval
+}
+
+type ContractMaxAggregate {
+  id: Int
+  companyId: Int
+  externalProviderId: String
+  invoiceId: String
+  planId: Int
+  startDate: DateTime
+  endDate: DateTime
+  usageType: UsageType
+  usageAmount: Int
+  usageInterval: Interval
+  usageIntervalCount: Int
+  subscriptionExpireDate: DateTime
+  renewalInterval: RenewalInterval
+}
+
+type ExternalProviderCompanyCountAggregate {
+  companyId: Int!
+  externalProviderId: Int!
+  _all: Int!
+}
+
+type ExternalProviderCompanyAvgAggregate {
+  companyId: Float
+}
+
+type ExternalProviderCompanySumAggregate {
+  companyId: Int
+}
+
+type ExternalProviderCompanyMinAggregate {
+  companyId: Int
+  externalProviderId: String
+}
+
+type ExternalProviderCompanyMaxAggregate {
+  companyId: Int
+  externalProviderId: String
+}
+
+type LegacyInvoiceCountAggregate {
+  id: Int!
+  companyId: Int!
+  createdAt: Int!
+  description: Int!
+  firstName: Int!
+  lastName: Int!
+  addressLine1: Int!
+  addressLine2: Int!
+  postalCode: Int!
+  city: Int!
+  status: Int!
+  _all: Int!
+}
+
+type LegacyInvoiceAvgAggregate {
+  id: Float
+  companyId: Float
+}
+
+type LegacyInvoiceSumAggregate {
+  id: Int
+  companyId: Int
+}
+
+type LegacyInvoiceMinAggregate {
+  id: Int
+  companyId: Int
+  createdAt: DateTime
+  description: String
+  firstName: String
+  lastName: String
+  addressLine1: String
+  addressLine2: String
+  postalCode: String
+  city: String
+  status: LegacyInvoiceStatus
+}
+
+enum LegacyInvoiceStatus {
+  NEW
+  REMOVED
+  PAID
+  CREDITED
+  EXPIRED
+  OPEN
+  COLLECTION
+  COLLECTIONSENT
+  INTERNAL_PENDING
+  PENDING
+  CREDIT
+  CREDIT_PENDING
+  CREDIT_FAIL
+}
+
+type LegacyInvoiceMaxAggregate {
+  id: Int
+  companyId: Int
+  createdAt: DateTime
+  description: String
+  firstName: String
+  lastName: String
+  addressLine1: String
+  addressLine2: String
+  postalCode: String
+  city: String
+  status: LegacyInvoiceStatus
+}
+
+type LegacyInvoiceCount {
+  legacyInvoiceItems: Int!
+}
+
+type LegacyInvoiceItem {
+  id: ID!
+  legacyInvoiceId: Int!
+  contractId: Int
+  invoiceItemCode: LegacyInvoiceItemCode!
+  description: String
+  startDate: DateTime
+  endDate: DateTime
+  amount: Int!
+  price: Int!
+  taxPercent: Int!
+  legacyInvoice: LegacyInvoice!
+}
+
+enum LegacyInvoiceItemCode {
+  CONTRACT
+  CREDIT
+  DISCOUNT
+}
+
+type LegacyInvoice {
+  id: ID!
+  companyId: Int!
+  createdAt: DateTime!
+  description: String
+  firstName: String
+  lastName: String
+  addressLine1: String
+  addressLine2: String
+  postalCode: String
+  city: String
+  status: LegacyInvoiceStatus!
+  legacyInvoiceItems: [LegacyInvoiceItem!]
+  _count: LegacyInvoiceCount!
+}
+
+type LegacyInvoiceItemCountAggregate {
+  id: Int!
+  legacyInvoiceId: Int!
+  contractId: Int!
+  invoiceItemCode: Int!
+  description: Int!
+  startDate: Int!
+  endDate: Int!
+  amount: Int!
+  price: Int!
+  taxPercent: Int!
+  _all: Int!
+}
+
+type LegacyInvoiceItemAvgAggregate {
+  id: Float
+  legacyInvoiceId: Float
+  contractId: Float
+  amount: Float
+  price: Float
+  taxPercent: Float
+}
+
+type LegacyInvoiceItemSumAggregate {
+  id: Int
+  legacyInvoiceId: Int
+  contractId: Int
+  amount: Int
+  price: Int
+  taxPercent: Int
+}
+
+type LegacyInvoiceItemMinAggregate {
+  id: Int
+  legacyInvoiceId: Int
+  contractId: Int
+  invoiceItemCode: LegacyInvoiceItemCode
+  description: String
+  startDate: DateTime
+  endDate: DateTime
+  amount: Int
+  price: Int
+  taxPercent: Int
+}
+
+type LegacyInvoiceItemMaxAggregate {
+  id: Int
+  legacyInvoiceId: Int
+  contractId: Int
+  invoiceItemCode: LegacyInvoiceItemCode
+  description: String
+  startDate: DateTime
+  endDate: DateTime
+  amount: Int
+  price: Int
+  taxPercent: Int
+}
+
+type PlanCountAggregate {
+  id: Int!
+  externalProviderId: Int!
+  externalProviderSync: Int!
+  externalProviderPaymentMethodId: Int!
+  slug: Int!
+  productId: Int!
+  usageType: Int!
+  usageAmount: Int!
+  usageInterval: Int!
+  usageIntervalCount: Int!
+  renewalInterval: Int!
+  _all: Int!
+}
+
+type PlanAvgAggregate {
+  id: Float
+  productId: Float
+  usageAmount: Float
+  usageIntervalCount: Float
+}
+
+type PlanSumAggregate {
+  id: Int
+  productId: Int
+  usageAmount: Int
+  usageIntervalCount: Int
+}
+
+type PlanMinAggregate {
+  id: Int
+  externalProviderId: String
+  externalProviderSync: Boolean
+  externalProviderPaymentMethodId: String
+  slug: String
+  productId: Int
+  usageType: UsageType
+  usageAmount: Int
+  usageInterval: Interval
+  usageIntervalCount: Int
+  renewalInterval: RenewalInterval
+}
+
+type PlanMaxAggregate {
+  id: Int
+  externalProviderId: String
+  externalProviderSync: Boolean
+  externalProviderPaymentMethodId: String
+  slug: String
+  productId: Int
+  usageType: UsageType
+  usageAmount: Int
+  usageInterval: Interval
+  usageIntervalCount: Int
+  renewalInterval: RenewalInterval
+}
+
+type ProductCountAggregate {
+  id: Int!
+  externalProviderId: Int!
+  externalProviderSync: Int!
+  name: Int!
+  slug: Int!
+  description: Int!
+  modeType: Int!
+  _all: Int!
+}
+
+type ProductAvgAggregate {
+  id: Float
+}
+
+type ProductSumAggregate {
+  id: Int
+}
+
+type ProductMinAggregate {
+  id: Int
+  externalProviderId: String
+  externalProviderSync: Boolean
+  name: String
+  slug: ProductSlug
+  description: String
+  modeType: ModeType
+}
+
+type ProductMaxAggregate {
+  id: Int
+  externalProviderId: String
+  externalProviderSync: Boolean
+  name: String
+  slug: ProductSlug
+  description: String
+  modeType: ModeType
+}
+
+type UsageCountAggregate {
+  id: Int!
+  type: Int!
+  amount: Int!
+  companyId: Int!
+  created: Int!
+  objectId: Int!
+  _all: Int!
+}
+
+type UsageAvgAggregate {
+  id: Float
+  amount: Float
+  companyId: Float
+  objectId: Float
+}
+
+type UsageSumAggregate {
+  id: Int
+  amount: Int
+  companyId: Int
+  objectId: Int
+}
+
+type UsageMinAggregate {
+  id: Int
+  type: UsageType
+  amount: Int
+  companyId: Int
+  created: DateTime
+  objectId: Int
+}
+
+type UsageMaxAggregate {
+  id: Int
+  type: UsageType
+  amount: Int
+  companyId: Int
+  created: DateTime
+  objectId: Int
+}
+
+type StripeProductMetadata {
+  order: Float
+  slug: String
+  type: String
+  source: String
+}
+
+type StripeProduct {
+  id: String!
+  object: String!
+  active: Boolean!
+  created: Float!
+  default_price: String
+  deleted: Boolean
+  description: String
+  livemode: Boolean!
+  name: String!
+  metadata: StripeProductMetadata!
+  type: String!
+  modeType: String!
+  unit_label: String
+  updated: Float!
+  prices: [StripePrice!]
+}
+
+type Credit {
+  usageType: String!
+  amount: Int!
+  refreshDate: DateTime
+  contractAmount: Int!
+  productSlug: String
+  contractStartDate: DateTime
+  contractEndDate: DateTime
+}
+
+type TotalDetails {
+  amount_tax: Float
+}
+
+type StripeSession
+  @key(fields: "id")
+{
+  id: String!
+  amount_subtotal: Float
+  amount_total: Float
+  cancel_url: String
+  client_reference_id: String
+  created: Float!
+  currency: String
+  expires_at: Float!
+  livemode: Boolean!
+  mode: String!
+  payment_intent: String
+  payment_link: String
+  payment_method_collection: String
+  payment_method_configuration_details: String
+  payment_method_options: String
+  payment_method_types: [String!]!
+  payment_status: String!
+  status: String
+  submit_type: String
+  subscription: String
+  success_url: String
+  url: String
+  total_details: TotalDetails
+  invoice: String
+}
+
+type Invoice {
+  id: String
+  name: String
+  status: String
+  date: DateTime
+  priceInclVat: Float
+  priceExVat: Float
+  downloadLink: String
+  subscription: String
+}
+
+type Company
+  @extends
+  @key(fields: "id")
+{
+  id: ID! @external
+  contracts: [Contract!]!
+}
+
+type CheckoutInvoice {
+  """Indicates if the checkout invoice creation was successful"""
+  isSuccessful: Boolean!
+  token: String!
+}
+
+type CheckoutInvoiceDetails {
+  invoiceId: String!
+  value: Int!
+  tax: Int!
+  currency: String!
+  itemName: String!
+  quantity: Int!
+  itemId: String!
+  productId: String!
+}
+
+type Query {
+  healthContract: String!
+  checkout(where: CheckoutWhereInput, orderBy: [CheckoutOrderByWithRelationInput!], cursor: CheckoutWhereUniqueInput, take: Int, skip: Int, distinct: [CheckoutScalarFieldEnum!]): Checkout!
+  plans(where: PlanWhereInput, orderBy: [PlanOrderByWithRelationInput!], cursor: PlanWhereUniqueInput, take: Int, skip: Int, distinct: [PlanScalarFieldEnum!]): [Plan!]!
+  contracts(where: ContractWhereInput, orderBy: [ContractOrderByWithRelationInput!], cursor: ContractWhereUniqueInput, take: Int, skip: Int, distinct: [ContractScalarFieldEnum!]): [Contract!]!
+  topBoxCompanies: [Contract!]!
+  hasCompanyProfile(companyId: Int!): Boolean!
+  activeContractSlugs: [String!]!
+  products: [StripeProduct!]!
+  remainingUsage: [Credit!]!
+  remainingUsageByCreditType(usageType: String!): Credit!
+  remainingUsageByProductSlug(productSlug: String!): Credit!
+  assignmentsRemainingUsage: [Credit!]!
+  invoices(take: Int, skip: Int): [Invoice!]!
+  invoicesAdmin(take: Int, skip: Int, companyId: Int): [Invoice!]!
+  checkoutInvoice(token: String!): CheckoutInvoiceDetails!
+}
+
+input CheckoutWhereInput {
+  AND: [CheckoutWhereInput!]
+  OR: [CheckoutWhereInput!]
+  NOT: [CheckoutWhereInput!]
+  id: IntFilter
+  planId: IntFilter
+  companyId: IntFilter
+  userId: IntFilter
+  token: StringFilter
+  sessionId: StringFilter
+  company: ExternalProviderCompanyRelationFilter
+  plan: PlanRelationFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+input ExternalProviderCompanyRelationFilter {
+  is: ExternalProviderCompanyWhereInput
+  isNot: ExternalProviderCompanyWhereInput
+}
+
+input ExternalProviderCompanyWhereInput {
+  AND: [ExternalProviderCompanyWhereInput!]
+  OR: [ExternalProviderCompanyWhereInput!]
+  NOT: [ExternalProviderCompanyWhereInput!]
+  companyId: IntFilter
+  externalProviderId: StringNullableFilter
+  checkout: CheckoutListRelationFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input CheckoutListRelationFilter {
+  every: CheckoutWhereInput
+  some: CheckoutWhereInput
+  none: CheckoutWhereInput
+}
+
+input PlanRelationFilter {
+  is: PlanWhereInput
+  isNot: PlanWhereInput
+}
+
+input PlanWhereInput {
+  AND: [PlanWhereInput!]
+  OR: [PlanWhereInput!]
+  NOT: [PlanWhereInput!]
+  id: IntFilter
+  externalProviderId: StringNullableFilter
+  externalProviderSync: BoolFilter
+  externalProviderPaymentMethodId: StringNullableFilter
+  slug: StringNullableFilter
+  productId: IntFilter
+  usageType: EnumUsageTypeFilter
+  usageAmount: IntNullableFilter
+  usageInterval: EnumIntervalNullableFilter
+  usageIntervalCount: IntNullableFilter
+  renewalInterval: EnumRenewalIntervalNullableFilter
+  product: ProductRelationFilter
+  contracts: ContractListRelationFilter
+  checkouts: CheckoutListRelationFilter
+}
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input EnumUsageTypeFilter {
+  equals: UsageType
+  in: [UsageType!]
+  notIn: [UsageType!]
+  not: NestedEnumUsageTypeFilter
+}
+
+input NestedEnumUsageTypeFilter {
+  equals: UsageType
+  in: [UsageType!]
+  notIn: [UsageType!]
+  not: NestedEnumUsageTypeFilter
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input NestedIntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntNullableFilter
+}
+
+input EnumIntervalNullableFilter {
+  equals: Interval
+  in: [Interval!]
+  notIn: [Interval!]
+  not: NestedEnumIntervalNullableFilter
+}
+
+input NestedEnumIntervalNullableFilter {
+  equals: Interval
+  in: [Interval!]
+  notIn: [Interval!]
+  not: NestedEnumIntervalNullableFilter
+}
+
+input EnumRenewalIntervalNullableFilter {
+  equals: RenewalInterval
+  in: [RenewalInterval!]
+  notIn: [RenewalInterval!]
+  not: NestedEnumRenewalIntervalNullableFilter
+}
+
+input NestedEnumRenewalIntervalNullableFilter {
+  equals: RenewalInterval
+  in: [RenewalInterval!]
+  notIn: [RenewalInterval!]
+  not: NestedEnumRenewalIntervalNullableFilter
+}
+
+input ProductRelationFilter {
+  is: ProductWhereInput
+  isNot: ProductWhereInput
+}
+
+input ProductWhereInput {
+  AND: [ProductWhereInput!]
+  OR: [ProductWhereInput!]
+  NOT: [ProductWhereInput!]
+  id: IntFilter
+  externalProviderId: StringNullableFilter
+  externalProviderSync: BoolFilter
+  name: StringFilter
+  slug: EnumProductSlugFilter
+  description: StringFilter
+  modeType: EnumModeTypeNullableFilter
+  plans: PlanListRelationFilter
+}
+
+input EnumProductSlugFilter {
+  equals: ProductSlug
+  in: [ProductSlug!]
+  notIn: [ProductSlug!]
+  not: NestedEnumProductSlugFilter
+}
+
+input NestedEnumProductSlugFilter {
+  equals: ProductSlug
+  in: [ProductSlug!]
+  notIn: [ProductSlug!]
+  not: NestedEnumProductSlugFilter
+}
+
+input EnumModeTypeNullableFilter {
+  equals: ModeType
+  in: [ModeType!]
+  notIn: [ModeType!]
+  not: NestedEnumModeTypeNullableFilter
+}
+
+input NestedEnumModeTypeNullableFilter {
+  equals: ModeType
+  in: [ModeType!]
+  notIn: [ModeType!]
+  not: NestedEnumModeTypeNullableFilter
+}
+
+input PlanListRelationFilter {
+  every: PlanWhereInput
+  some: PlanWhereInput
+  none: PlanWhereInput
+}
+
+input ContractListRelationFilter {
+  every: ContractWhereInput
+  some: ContractWhereInput
+  none: ContractWhereInput
+}
+
+input ContractWhereInput {
+  AND: [ContractWhereInput!]
+  OR: [ContractWhereInput!]
+  NOT: [ContractWhereInput!]
+  id: IntFilter
+  companyId: IntFilter
+  externalProviderId: StringNullableFilter
+  invoiceId: StringNullableFilter
+  planId: IntFilter
+  startDate: DateTimeFilter
+  endDate: DateTimeNullableFilter
+  usageType: EnumUsageTypeFilter
+  usageAmount: IntNullableFilter
+  usageInterval: EnumIntervalNullableFilter
+  usageIntervalCount: IntNullableFilter
+  subscriptionExpireDate: DateTimeNullableFilter
+  renewalInterval: EnumRenewalIntervalNullableFilter
+  plan: PlanRelationFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input NestedDateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input CheckoutOrderByWithRelationInput {
+  id: SortOrder
+  planId: SortOrder
+  companyId: SortOrder
+  userId: SortOrder
+  token: SortOrder
+  sessionId: SortOrder
+  company: ExternalProviderCompanyOrderByWithRelationInput
+  plan: PlanOrderByWithRelationInput
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input ExternalProviderCompanyOrderByWithRelationInput {
+  companyId: SortOrder
+  externalProviderId: SortOrderInput
+  checkout: CheckoutOrderByRelationAggregateInput
+}
+
+input SortOrderInput {
+  sort: SortOrder!
+  nulls: NullsOrder
+}
+
+enum NullsOrder {
+  first
+  last
+}
+
+input CheckoutOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input PlanOrderByWithRelationInput {
+  id: SortOrder
+  externalProviderId: SortOrderInput
+  externalProviderSync: SortOrder
+  externalProviderPaymentMethodId: SortOrderInput
+  slug: SortOrderInput
+  productId: SortOrder
+  usageType: SortOrder
+  usageAmount: SortOrderInput
+  usageInterval: SortOrderInput
+  usageIntervalCount: SortOrderInput
+  renewalInterval: SortOrderInput
+  product: ProductOrderByWithRelationInput
+  contracts: ContractOrderByRelationAggregateInput
+  checkouts: CheckoutOrderByRelationAggregateInput
+}
+
+input ProductOrderByWithRelationInput {
+  id: SortOrder
+  externalProviderId: SortOrderInput
+  externalProviderSync: SortOrder
+  name: SortOrder
+  slug: SortOrder
+  description: SortOrder
+  modeType: SortOrderInput
+  plans: PlanOrderByRelationAggregateInput
+}
+
+input PlanOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ContractOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input CheckoutWhereUniqueInput {
+  id: Int
+  token: String
+  sessionId: String
+  AND: [CheckoutWhereInput!]
+  OR: [CheckoutWhereInput!]
+  NOT: [CheckoutWhereInput!]
+  planId: IntFilter
+  companyId: IntFilter
+  userId: IntFilter
+  company: ExternalProviderCompanyRelationFilter
+  plan: PlanRelationFilter
+}
+
+enum CheckoutScalarFieldEnum {
+  id
+  planId
+  companyId
+  userId
+  token
+  sessionId
+}
+
+input PlanWhereUniqueInput {
+  id: Int
+  AND: [PlanWhereInput!]
+  OR: [PlanWhereInput!]
+  NOT: [PlanWhereInput!]
+  externalProviderId: StringNullableFilter
+  externalProviderSync: BoolFilter
+  externalProviderPaymentMethodId: StringNullableFilter
+  slug: StringNullableFilter
+  productId: IntFilter
+  usageType: EnumUsageTypeFilter
+  usageAmount: IntNullableFilter
+  usageInterval: EnumIntervalNullableFilter
+  usageIntervalCount: IntNullableFilter
+  renewalInterval: EnumRenewalIntervalNullableFilter
+  product: ProductRelationFilter
+  contracts: ContractListRelationFilter
+  checkouts: CheckoutListRelationFilter
+}
+
+enum PlanScalarFieldEnum {
+  id
+  externalProviderId
+  externalProviderSync
+  externalProviderPaymentMethodId
+  slug
+  productId
+  usageType
+  usageAmount
+  usageInterval
+  usageIntervalCount
+  renewalInterval
+}
+
+input ContractOrderByWithRelationInput {
+  id: SortOrder
+  companyId: SortOrder
+  externalProviderId: SortOrderInput
+  invoiceId: SortOrderInput
+  planId: SortOrder
+  startDate: SortOrder
+  endDate: SortOrderInput
+  usageType: SortOrder
+  usageAmount: SortOrderInput
+  usageInterval: SortOrderInput
+  usageIntervalCount: SortOrderInput
+  subscriptionExpireDate: SortOrderInput
+  renewalInterval: SortOrderInput
+  plan: PlanOrderByWithRelationInput
+}
+
+input ContractWhereUniqueInput {
+  id: Int
+  AND: [ContractWhereInput!]
+  OR: [ContractWhereInput!]
+  NOT: [ContractWhereInput!]
+  companyId: IntFilter
+  externalProviderId: StringNullableFilter
+  invoiceId: StringNullableFilter
+  planId: IntFilter
+  startDate: DateTimeFilter
+  endDate: DateTimeNullableFilter
+  usageType: EnumUsageTypeFilter
+  usageAmount: IntNullableFilter
+  usageInterval: EnumIntervalNullableFilter
+  usageIntervalCount: IntNullableFilter
+  subscriptionExpireDate: DateTimeNullableFilter
+  renewalInterval: EnumRenewalIntervalNullableFilter
+  plan: PlanRelationFilter
+}
+
+enum ContractScalarFieldEnum {
+  id
+  companyId
+  externalProviderId
+  invoiceId
+  planId
+  startDate
+  endDate
+  usageType
+  usageAmount
+  usageInterval
+  usageIntervalCount
+  subscriptionExpireDate
+  renewalInterval
+}
+
+type Mutation {
+  checkoutCreate(data: CheckoutCreateInput!): Checkout!
+  createContract(input: CustomContractCreateInput!): CreateContractOutput!
+  endProContract(companyId: Float!, proEndDate: String!, basicCompanyStartDate: String!): EndProContractOutput!
+  updateContract(contractId: Float!, companyId: Float!, input: ContractUpdateInput!): UpdateContractOutput!
+  cancelSubscription(contractId: Float!): StripeSubscription!
+  enableSubscription(contractId: Float!): StripeSubscription!
+  checkoutInvoiceCreate(checkoutInvoiceCreateInput: CheckoutInvoiceCreateInput!): CheckoutInvoice!
+}
+
+input CheckoutCreateInput {
+  planId: Int!
+  companyId: Int!
+  quantity: Int
+}
+
+input CustomContractCreateInput {
+  planId: Int!
+  companyId: Int!
+  usageAmount: Int
+  usageInterval: String
+  startDate: String
+  endDate: String
+  renewalInterval: String
+}
+
+input ContractUpdateInput {
+  companyId: Int
+  externalProviderId: String
+  invoiceId: String
+  startDate: DateTime
+  endDate: DateTime
+  usageType: UsageType
+  usageAmount: Int
+  usageInterval: Interval
+  usageIntervalCount: Int
+  subscriptionExpireDate: DateTime
+  renewalInterval: RenewalInterval
+  plan: PlanUpdateOneRequiredWithoutContractsNestedInput
+}
+
+input PlanUpdateOneRequiredWithoutContractsNestedInput {
+  create: PlanCreateWithoutContractsInput
+  connectOrCreate: PlanCreateOrConnectWithoutContractsInput
+  upsert: PlanUpsertWithoutContractsInput
+  connect: PlanWhereUniqueInput
+  update: PlanUpdateToOneWithWhereWithoutContractsInput
+}
+
+input PlanCreateWithoutContractsInput {
+  externalProviderId: String
+  externalProviderSync: Boolean!
+  externalProviderPaymentMethodId: String
+  slug: String
+  usageType: UsageType!
+  usageAmount: Int
+  usageInterval: Interval
+  usageIntervalCount: Int
+  renewalInterval: RenewalInterval
+  product: ProductCreateNestedOneWithoutPlansInput!
+  checkouts: CheckoutCreateNestedManyWithoutPlanInput
+}
+
+input ProductCreateNestedOneWithoutPlansInput {
+  create: ProductCreateWithoutPlansInput
+  connectOrCreate: ProductCreateOrConnectWithoutPlansInput
+  connect: ProductWhereUniqueInput
+}
+
+input ProductCreateWithoutPlansInput {
+  externalProviderId: String
+  externalProviderSync: Boolean!
+  name: String!
+  slug: ProductSlug!
+  description: String!
+  modeType: ModeType
+}
+
+input ProductCreateOrConnectWithoutPlansInput {
+  where: ProductWhereUniqueInput!
+  create: ProductCreateWithoutPlansInput!
+}
+
+input ProductWhereUniqueInput {
+  id: Int
+  slug: ProductSlug
+  AND: [ProductWhereInput!]
+  OR: [ProductWhereInput!]
+  NOT: [ProductWhereInput!]
+  externalProviderId: StringNullableFilter
+  externalProviderSync: BoolFilter
+  name: StringFilter
+  description: StringFilter
+  modeType: EnumModeTypeNullableFilter
+  plans: PlanListRelationFilter
+}
+
+input CheckoutCreateNestedManyWithoutPlanInput {
+  create: [CheckoutCreateWithoutPlanInput!]
+  connectOrCreate: [CheckoutCreateOrConnectWithoutPlanInput!]
+  createMany: CheckoutCreateManyPlanInputEnvelope
+  connect: [CheckoutWhereUniqueInput!]
+}
+
+input CheckoutCreateWithoutPlanInput {
+  userId: Int!
+  token: String!
+  sessionId: String!
+  company: ExternalProviderCompanyCreateNestedOneWithoutCheckoutInput!
+}
+
+input ExternalProviderCompanyCreateNestedOneWithoutCheckoutInput {
+  create: ExternalProviderCompanyCreateWithoutCheckoutInput
+  connectOrCreate: ExternalProviderCompanyCreateOrConnectWithoutCheckoutInput
+  connect: ExternalProviderCompanyWhereUniqueInput
+}
+
+input ExternalProviderCompanyCreateWithoutCheckoutInput {
+  companyId: Int!
+  externalProviderId: String
+}
+
+input ExternalProviderCompanyCreateOrConnectWithoutCheckoutInput {
+  where: ExternalProviderCompanyWhereUniqueInput!
+  create: ExternalProviderCompanyCreateWithoutCheckoutInput!
+}
+
+input ExternalProviderCompanyWhereUniqueInput {
+  companyId: Int
+  externalProviderId: String
+  AND: [ExternalProviderCompanyWhereInput!]
+  OR: [ExternalProviderCompanyWhereInput!]
+  NOT: [ExternalProviderCompanyWhereInput!]
+  checkout: CheckoutListRelationFilter
+}
+
+input CheckoutCreateOrConnectWithoutPlanInput {
+  where: CheckoutWhereUniqueInput!
+  create: CheckoutCreateWithoutPlanInput!
+}
+
+input CheckoutCreateManyPlanInputEnvelope {
+  data: [CheckoutCreateManyPlanInput!]!
+  skipDuplicates: Boolean
+}
+
+input CheckoutCreateManyPlanInput {
+  id: Int
+  companyId: Int!
+  userId: Int!
+  token: String!
+  sessionId: String!
+}
+
+input PlanCreateOrConnectWithoutContractsInput {
+  where: PlanWhereUniqueInput!
+  create: PlanCreateWithoutContractsInput!
+}
+
+input PlanUpsertWithoutContractsInput {
+  update: PlanUpdateWithoutContractsInput!
+  create: PlanCreateWithoutContractsInput!
+  where: PlanWhereInput
+}
+
+input PlanUpdateWithoutContractsInput {
+  externalProviderId: String
+  externalProviderSync: Boolean
+  externalProviderPaymentMethodId: String
+  slug: String
+  usageType: UsageType
+  usageAmount: Int
+  usageInterval: Interval
+  usageIntervalCount: Int
+  renewalInterval: RenewalInterval
+  product: ProductUpdateOneRequiredWithoutPlansNestedInput
+  checkouts: CheckoutUpdateManyWithoutPlanNestedInput
+}
+
+input ProductUpdateOneRequiredWithoutPlansNestedInput {
+  create: ProductCreateWithoutPlansInput
+  connectOrCreate: ProductCreateOrConnectWithoutPlansInput
+  upsert: ProductUpsertWithoutPlansInput
+  connect: ProductWhereUniqueInput
+  update: ProductUpdateToOneWithWhereWithoutPlansInput
+}
+
+input ProductUpsertWithoutPlansInput {
+  update: ProductUpdateWithoutPlansInput!
+  create: ProductCreateWithoutPlansInput!
+  where: ProductWhereInput
+}
+
+input ProductUpdateWithoutPlansInput {
+  externalProviderId: String
+  externalProviderSync: Boolean
+  name: String
+  slug: ProductSlug
+  description: String
+  modeType: ModeType
+}
+
+input ProductUpdateToOneWithWhereWithoutPlansInput {
+  where: ProductWhereInput
+  data: ProductUpdateWithoutPlansInput!
+}
+
+input CheckoutUpdateManyWithoutPlanNestedInput {
+  create: [CheckoutCreateWithoutPlanInput!]
+  connectOrCreate: [CheckoutCreateOrConnectWithoutPlanInput!]
+  upsert: [CheckoutUpsertWithWhereUniqueWithoutPlanInput!]
+  createMany: CheckoutCreateManyPlanInputEnvelope
+  set: [CheckoutWhereUniqueInput!]
+  disconnect: [CheckoutWhereUniqueInput!]
+  delete: [CheckoutWhereUniqueInput!]
+  connect: [CheckoutWhereUniqueInput!]
+  update: [CheckoutUpdateWithWhereUniqueWithoutPlanInput!]
+  updateMany: [CheckoutUpdateManyWithWhereWithoutPlanInput!]
+  deleteMany: [CheckoutScalarWhereInput!]
+}
+
+input CheckoutUpsertWithWhereUniqueWithoutPlanInput {
+  where: CheckoutWhereUniqueInput!
+  update: CheckoutUpdateWithoutPlanInput!
+  create: CheckoutCreateWithoutPlanInput!
+}
+
+input CheckoutUpdateWithoutPlanInput {
+  userId: Int
+  token: String
+  sessionId: String
+  company: ExternalProviderCompanyUpdateOneRequiredWithoutCheckoutNestedInput
+}
+
+input ExternalProviderCompanyUpdateOneRequiredWithoutCheckoutNestedInput {
+  create: ExternalProviderCompanyCreateWithoutCheckoutInput
+  connectOrCreate: ExternalProviderCompanyCreateOrConnectWithoutCheckoutInput
+  upsert: ExternalProviderCompanyUpsertWithoutCheckoutInput
+  connect: ExternalProviderCompanyWhereUniqueInput
+  update: ExternalProviderCompanyUpdateToOneWithWhereWithoutCheckoutInput
+}
+
+input ExternalProviderCompanyUpsertWithoutCheckoutInput {
+  update: ExternalProviderCompanyUpdateWithoutCheckoutInput!
+  create: ExternalProviderCompanyCreateWithoutCheckoutInput!
+  where: ExternalProviderCompanyWhereInput
+}
+
+input ExternalProviderCompanyUpdateWithoutCheckoutInput {
+  companyId: Int
+  externalProviderId: String
+}
+
+input ExternalProviderCompanyUpdateToOneWithWhereWithoutCheckoutInput {
+  where: ExternalProviderCompanyWhereInput
+  data: ExternalProviderCompanyUpdateWithoutCheckoutInput!
+}
+
+input CheckoutUpdateWithWhereUniqueWithoutPlanInput {
+  where: CheckoutWhereUniqueInput!
+  data: CheckoutUpdateWithoutPlanInput!
+}
+
+input CheckoutUpdateManyWithWhereWithoutPlanInput {
+  where: CheckoutScalarWhereInput!
+  data: CheckoutUpdateManyMutationInput!
+}
+
+input CheckoutScalarWhereInput {
+  AND: [CheckoutScalarWhereInput!]
+  OR: [CheckoutScalarWhereInput!]
+  NOT: [CheckoutScalarWhereInput!]
+  id: IntFilter
+  planId: IntFilter
+  companyId: IntFilter
+  userId: IntFilter
+  token: StringFilter
+  sessionId: StringFilter
+}
+
+input CheckoutUpdateManyMutationInput {
+  userId: Int
+  token: String
+  sessionId: String
+}
+
+input PlanUpdateToOneWithWhereWithoutContractsInput {
+  where: PlanWhereInput
+  data: PlanUpdateWithoutContractsInput!
+}
+
+input CheckoutInvoiceCreateInput {
+  planId: Int!
+  quantity: Int
+}
