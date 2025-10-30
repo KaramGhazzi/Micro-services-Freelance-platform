@@ -1,0 +1,16 @@
+ingress:
+  enabled: true
+  controller: nginx
+  hosts:
+    - api.{{DEPLOY_BASE_URL}}
+  path: /webhook
+  certificate:
+    enabled: true
+    certManagerVersion: v1
+    commonName: api.{{DEPLOY_BASE_URL}}
+    dnsNames:
+      - api.{{DEPLOY_BASE_URL}}
+
+onepassword:
+  enabled: true
+  vault: k8s-production

@@ -1,0 +1,75 @@
+chart_version: 0.9.0
+kind: Deployment
+port:
+  enabled: true
+  name: api
+  value: 3008
+  protocol: TCP
+
+autoscaling:
+  enabled: true
+  maxReplicas: 3
+  minReplicas: 1
+  targetCPU: 85
+  targetMemory: 85
+
+resources:
+  requests:
+    cpu: 450m
+    memory: 250Mi
+  limits:
+    cpu: 450m
+    memory: 250Mi
+
+image:
+  registry: freelancepf{{STAGE}}registry.azurecr.io
+  repository: freelance-platform-webhook
+  tag: '{{TAG}}'
+
+service:
+  enabled: true
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  controller: nginx
+  hosts:
+    - api.freelance-{{STAGE}}.{{DEPLOY_BASE_URL}}
+  path: /webhook
+  certificate:
+    enabled: true
+    certManagerVersion: v1
+    commonName: api.freelance-{{STAGE}}.{{DEPLOY_BASE_URL}}
+    dnsNames:
+      - api.freelance-{{STAGE}}.{{DEPLOY_BASE_URL}}
+
+redis:
+  enabled: true
+  auth:
+    existingSecret: scrt-freelance-platform-webhook-{{STAGE}}-redis
+  architecture: standalone
+
+configmaps:
+  enabled: true
+  shared: false
+
+configmapdata:
+  LOG_LEVELS: log,error,warn,debug
+  DEPLOYED_ENVIRONMENT: '{{STAGE}}'
+
+secrets:
+  app: true
+  shared: true
+
+onepassword:
+  enabled: true
+  vault: k8s-staging
+
+livenessProbe:
+  path: /_health
+
+readinessProbe:
+  path: /_health
+
+startupProbe:
+  path: /_health

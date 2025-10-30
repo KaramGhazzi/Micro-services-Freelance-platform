@@ -1,0 +1,28 @@
+secrets:
+  app: true
+  appNameOverride: scrt-freelance-platform-webhook-develop
+  custom:
+    enabled: true
+    name: scrt-freelance-platform-webhook-feat
+  shared: true
+  sharedNameOverride: scrt-freelance-platform-shared-feat
+
+redis:
+  fullnameOverride: freelance-platform-webhook-feat-redis
+  auth:
+    existingSecret: scrt-freelance-platform-webhook-feat-redis
+
+configmapdata:
+  NODE_OPTIONS: '--max-old-space-size=300'
+  SB_TOPIC_PREFIX: '{{SUFFIX}}'
+
+image:
+  registry: freelancepfdevelopregistry.azurecr.io
+
+ingress:
+  hosts:
+    - api-{{SUFFIX}}.freelance-develop.{{DEPLOY_BASE_URL}}
+  certificate:
+    commonName: api-{{SUFFIX}}.freelance-develop.{{DEPLOY_BASE_URL}}
+    dnsNames:
+      - api-{{SUFFIX}}.freelance-develop.{{DEPLOY_BASE_URL}}

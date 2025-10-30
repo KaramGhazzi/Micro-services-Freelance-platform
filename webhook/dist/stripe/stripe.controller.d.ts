@@ -1,0 +1,46 @@
+import { RawBodyRequest } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { AzureServiceBusClient } from '@package/azure-service-bus';
+import { Stripe } from 'stripe';
+import { WebhookCacheService } from '../webhook-cache.service';
+declare const EventType: {
+    INVOICE_PAID: string;
+    SUBSCRIPTION_CREATED: string;
+    SUBSCRIPTION_DELETED: string;
+    SUBSCRIPTION_UPDATED: string;
+    SUBSCRIPTION_SCHEDULE_CREATED: string;
+    SUBSCRIPTION_SCHEDULE_DELETED: string;
+    PAYMENT_SUCCEEDED: string;
+    PAYMENT_FAILED: string;
+    PAYMENT_CANCELED: string;
+};
+export type EventType = (typeof EventType)[keyof typeof EventType];
+export declare class StripeController {
+    private configService;
+    private webhookCacheService;
+    private readonly stripe;
+    private readonly subscriptionCreatedServiceBusClient;
+    private readonly subscriptionDeletedServiceBusClient;
+    private readonly subscriptionUpdatedServiceBusClient;
+    private readonly subscriptionScheduleCreatedServiceBusClient;
+    private readonly paymentSucceededServiceBusClient;
+    private readonly paymentFailedServiceBusClient;
+    private readonly paymentCanceledServiceBusClient;
+    private readonly invoicePaidServiceBusClient;
+    private endpointSecret;
+    private logger;
+    constructor(configService: ConfigService, webhookCacheService: WebhookCacheService, stripe: Stripe, subscriptionCreatedServiceBusClient: AzureServiceBusClient<Stripe.Subscription>, subscriptionDeletedServiceBusClient: AzureServiceBusClient<Stripe.Subscription>, subscriptionUpdatedServiceBusClient: AzureServiceBusClient<Stripe.Subscription>, subscriptionScheduleCreatedServiceBusClient: AzureServiceBusClient<Stripe.SubscriptionSchedule>, paymentSucceededServiceBusClient: AzureServiceBusClient<Stripe.PaymentIntent>, paymentFailedServiceBusClient: AzureServiceBusClient<Stripe.PaymentIntent>, paymentCanceledServiceBusClient: AzureServiceBusClient<Stripe.PaymentIntent>, invoicePaidServiceBusClient: AzureServiceBusClient<Stripe.Invoice>);
+    handleWebhook(signature: string, request: RawBodyRequest<Request>): Promise<string>;
+    private isEventType;
+    private eventHandlers;
+    private processEvent;
+    private handleSubscriptionCreated;
+    private handleSubscriptionDeleted;
+    private handleSubscriptionUpdated;
+    private handleSubscriptionScheduleCreated;
+    private handlePaymentSucceeded;
+    private handlePaymentFailed;
+    private handlePaymentCanceled;
+    private handleInvoicePaid;
+}
+export {};
